@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/mp_m"
+        android:layout_marginTop="@dimen/mp_s"
+        android:layout_marginEnd="@dimen/mp_m"
+        android:layout_marginBottom="@dimen/mp_s"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/card_cornerRadius">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/mp_m">
+
+            <View
+                android:id="@+id/plc_thumbnail"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:background="@color/grayDarkColor"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintDimensionRatio="H,16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/mp_sm0"
+                android:paddingTop="@dimen/mp_sm0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/plc_thumbnail">
+
+                <View
+                    android:id="@+id/plc_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_title"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:id="@+id/plc_price"
+                    android:layout_width="224dp"
+                    android:layout_height="@dimen/material_text_subhead"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mp_m"
+                    android:background="@color/grayLightColor"
+                    android:paddingHorizontal="@dimen/mp_s"
+                    android:paddingVertical="@dimen/mp_s">
+
+                    <View
+                        android:id="@+id/plc_timerText"
+                        android:layout_width="144dp"
+                        android:layout_height="@dimen/material_text_body1"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginVertical="@dimen/mp_xs"
+                        android:background="@drawable/placeholder_block" />
+
+                    <View
+                        android:id="@+id/plc_timer"
+                        android:layout_width="64dp"
+                        android:layout_height="@dimen/material_text_body1"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginVertical="@dimen/mp_xs"
+                        android:background="@drawable/placeholder_block" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

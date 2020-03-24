@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/plc_card_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/mp_xs"
+        android:layout_marginHorizontal="@dimen/mp_sm0"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/card_cornerRadius">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/mp_sm1">
+
+            <View
+                android:id="@+id/plc_thumbnail"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@color/grayDarkColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/plc_price"
+                android:layout_width="144dp"
+                android:layout_height="@dimen/material_text_title"
+                android:layout_marginStart="@dimen/mp_m"
+                android:layout_marginVertical="@dimen/mp_xs"
+                android:background="@drawable/placeholder_block"
+                app:layout_constraintStart_toEndOf="@id/plc_thumbnail"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/plc_username"
+                android:layout_width="160dp"
+                android:layout_height="@dimen/material_text_body2"
+                android:layout_marginTop="@dimen/mp_xs"
+                android:layout_marginBottom="@dimen/mp_sm1"
+                android:layout_marginStart="@dimen/mp_m"
+                android:background="@drawable/placeholder_block"
+                app:layout_constraintBottom_toTopOf="@+id/plc_time"
+                app:layout_constraintStart_toEndOf="@id/plc_thumbnail"
+                app:layout_constraintTop_toBottomOf="@+id/plc_price" />
+
+            <View
+                android:id="@+id/plc_time"
+                android:layout_width="160dp"
+                android:layout_height="@dimen/material_text_body1"
+                android:layout_marginVertical="@dimen/mp_xs"
+                android:background="@drawable/placeholder_block"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

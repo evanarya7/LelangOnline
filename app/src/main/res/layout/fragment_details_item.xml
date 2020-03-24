@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.details.DetailsFragment">
+
+    <include
+        android:visibility="visible"
+        layout="@layout/fragment_account_placeholder" />
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintDimensionRatio="H,16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/placeholder_image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/thumbnail">
+
+                <LinearLayout
+                    android:id="@+id/itemHead"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/mp_m"
+                    android:paddingVertical="@dimen/mp_s">
+
+                    <RelativeLayout
+                        android:id="@+id/subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/mp_s"
+                        android:background="@color/grayLightColor"
+                        android:paddingHorizontal="@dimen/mp_s"
+                        android:paddingVertical="@dimen/mp_s"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/thumbnail">
+
+                        <TextView
+                            android:id="@+id/bidCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grayTextColor"
+                            android:textSize="@dimen/material_text_subhead"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/mp_xs"
+                            android:layout_toEndOf="@id/bidCount"
+                            android:text="@string/card_details_bidder"
+                            android:textColor="@color/grayTextColor"
+                            android:textSize="@dimen/material_text_subhead"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/timerText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/mp_xs"
+                            android:layout_toStartOf="@id/timer"
+                            android:textColor="@color/grayTextColor"
+                            android:textSize="@dimen/material_text_subhead"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/timer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/grayTextColor"
+                            android:textSize="@dimen/material_text_subhead"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/itemName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_xs"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_headline"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/itemPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grayLightTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/itemStartText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@id/itemStart"
+                            android:text="@string/card_details_price"
+                            android:textColor="@color/grayTextColor"
+                            android:textSize="@dimen/material_text_subhead" />
+
+                        <TextView
+                            android:id="@+id/itemStart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/mp_xs"
+                            android:layout_toEndOf="@id/itemStartText"
+                            android:textColor="@color/orangeTextColor"
+                            android:textSize="@dimen/material_text_title" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mp_s"
+                    android:background="@color/grayLightColor" />
+
+                <LinearLayout
+                    android:id="@+id/itemDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/mp_m"
+                    android:paddingVertical="@dimen/mp_s">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_xs"
+                        android:text="@string/card_details_desc"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+                    <TextView
+                        android:id="@+id/itemDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_body1" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
