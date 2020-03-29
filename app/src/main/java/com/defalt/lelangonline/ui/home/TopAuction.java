@@ -8,13 +8,14 @@ public class TopAuction {
     private String itemName;
     private Double itemValue;
     private Double priceStart;
+    private String itemImg;
     private int favCount;
     private Timestamp auctionStart;
     private Timestamp auctionEnd;
     private Timestamp serverTime;
 
     public TopAuction(String auctionID, Timestamp auctionStart, Timestamp auctionEnd,
-               String itemName, Double itemValue, Double priceStart, int favCount,
+               String itemName, Double itemValue, Double priceStart, String itemImg, int favCount,
                Timestamp serverTime) {
         this.auctionID = auctionID;
         this.auctionStart = auctionStart;
@@ -22,6 +23,7 @@ public class TopAuction {
         this.itemName = itemName;
         this.itemValue = itemValue;
         this.priceStart = priceStart;
+        this.itemImg = itemImg;
         this.favCount = favCount;
         this.serverTime = serverTime;
     }
@@ -32,7 +34,7 @@ public class TopAuction {
         return auctionID;
     }
 
-    public void setAuctionID(String auctionID) {
+    void setAuctionID(String auctionID) {
         this.auctionID = auctionID;
     }
 
@@ -40,7 +42,7 @@ public class TopAuction {
         return itemName;
     }
 
-    public void setItemName(String itemName) {
+    void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
@@ -48,7 +50,7 @@ public class TopAuction {
         return itemValue;
     }
 
-    public void setItemValue(Double itemValue) {
+    void setItemValue(Double itemValue) {
         this.itemValue = itemValue;
     }
 
@@ -56,15 +58,23 @@ public class TopAuction {
         return priceStart;
     }
 
-    public void setPriceStart(Double priceStart) {
+    void setPriceStart(Double priceStart) {
         this.priceStart = priceStart;
     }
 
-    public int getFavCount() {
+    String getItemImg() {
+        return itemImg;
+    }
+
+    void setItemImg(String itemImg) {
+        this.itemImg = itemImg;
+    }
+
+    int getFavCount() {
         return favCount;
     }
 
-    public void setFavCount(int favCount) {
+    void setFavCount(int favCount) {
         this.favCount = favCount;
     }
 
@@ -72,7 +82,7 @@ public class TopAuction {
         return auctionStart;
     }
 
-    public void setAuctionStart(Timestamp auctionStart) {
+    void setAuctionStart(Timestamp auctionStart) {
         this.auctionStart = auctionStart;
     }
 
@@ -80,7 +90,7 @@ public class TopAuction {
         return auctionEnd;
     }
 
-    public void setAuctionEnd(Timestamp auctionEnd) {
+    void setAuctionEnd(Timestamp auctionEnd) {
         this.auctionEnd = auctionEnd;
     }
 
@@ -88,7 +98,7 @@ public class TopAuction {
         return serverTime;
     }
 
-    public void setServerTime(Timestamp serverTime) {
+    void setServerTime(Timestamp serverTime) {
         this.serverTime = serverTime;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.defalt.lelangonline.R;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.details.DetailsActivity;
@@ -139,6 +140,14 @@ public class TopAuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             priceInit.setText(SharedFunctions.formatRupiah(thisTopAuction.getItemValue()));
             priceInit.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             priceStart.setText(SharedFunctions.formatRupiah(thisTopAuction.getPriceStart()));
+
+            thumbnail.setImageDrawable(null);
+            if (!thisTopAuction.getItemImg().equals("null")) {
+                String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/items/";
+                Glide.with(mContext).load(IMAGE_URL + thisTopAuction.getItemImg()).into(thumbnail);
+            } else {
+                Glide.with(mContext).load(R.drawable.placeholder_image).into(thumbnail);
+            }
 
             // Auction has not started
             if (startDiff > 0) {

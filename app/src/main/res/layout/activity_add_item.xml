@@ -1,348 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.items.add.ItemsAddActivity">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/mp_m"
-        android:paddingVertical="@dimen/mp_s">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.cardview.widget.CardView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/mp_s"
-            app:cardCornerRadius="@dimen/card_cornerRadius">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/mp_m">
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/mp_s"
-                    android:labelFor="@id/name"
-                    android:text="@string/item_post_name_title"
-                    android:textColor="@color/grayDarkTextColor"
-                    android:textSize="@dimen/material_text_title" />
-
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/item_post_name_hint"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapWords"
-                    android:textColor="@color/grayTextColor"
-                    android:textSize="@dimen/material_text_subhead" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/mp_s"
-            app:cardCornerRadius="@dimen/card_cornerRadius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/mp_m">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/mp_s"
-                    android:labelFor="@id/category"
-                    android:text="@string/item_post_cat_title"
-                    android:textColor="@color/grayDarkTextColor"
-                    android:textSize="@dimen/material_text_title" />
-
-                <EditText
-                    android:id="@+id/category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/item_post_cat_hint"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapWords"
-                    android:textColor="@color/grayTextColor"
-                    android:textSize="@dimen/material_text_subhead" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/mp_s"
-            app:cardCornerRadius="@dimen/card_cornerRadius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/mp_m">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/mp_s"
-                    android:labelFor="@id/value"
-                    android:text="@string/item_post_val_title"
-                    android:textColor="@color/grayDarkTextColor"
-                    android:textSize="@dimen/material_text_title" />
-
-                <EditText
-                    android:id="@+id/value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/item_post_val_hint"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:textColor="@color/grayTextColor"
-                    android:textSize="@dimen/material_text_subhead" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/mp_s"
-            app:cardCornerRadius="@dimen/card_cornerRadius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/mp_m">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/mp_s"
-                    android:labelFor="@id/description"
-                    android:text="@string/item_post_desc_title"
-                    android:textColor="@color/grayDarkTextColor"
-                    android:textSize="@dimen/material_text_title" />
-
-                <EditText
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/item_post_desc_hint"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapSentences|textMultiLine|textLongMessage"
-                    android:textColor="@color/grayTextColor"
-                    android:textSize="@dimen/material_text_subhead" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/mp_s"
-            app:cardCornerRadius="@dimen/card_cornerRadius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/mp_m">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/mp_s"
-                    android:labelFor="@id/description"
-                    android:text="@string/item_post_img_title"
-                    android:textColor="@color/grayDarkTextColor"
-                    android:textSize="@dimen/material_text_title" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/thumbnail"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:scaleType="centerInside"
-                        app:layout_constraintBottom_toTopOf="parent"
-                        app:layout_constraintDimensionRatio="H,16:9"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed"
-                        app:srcCompat="@drawable/placeholder_image" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/mp_s"
-            app:cardCornerRadius="@dimen/card_cornerRadius">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/mp_s">
-
-                <Button
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_post" />
-
-                <ProgressBar
-                    android:id="@+id/loading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone" />
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-</ScrollView><!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".ui.items.add.ItemsAddActivity">
 
-
-
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mp_l"
-            android:layout_marginEnd="@dimen/mp_l"
-            android:hint="Nama barang"
-            android:inputType="text"
-            android:selectAllOnFocus="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/mp_m"
+            android:paddingVertical="@dimen/mp_s">
 
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="0dp"
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mp_s"
+                app:cardCornerRadius="@dimen/card_cornerRadius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/mp_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_s"
+                        android:labelFor="@id/name"
+                        android:text="@string/item_post_name_title"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/item_post_name_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mp_s"
+                app:cardCornerRadius="@dimen/card_cornerRadius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/mp_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_s"
+                        android:labelFor="@id/category"
+                        android:text="@string/item_post_cat_title"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+                    <EditText
+                        android:id="@+id/category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/item_post_cat_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mp_s"
+                app:cardCornerRadius="@dimen/card_cornerRadius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/mp_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_s"
+                        android:labelFor="@id/value"
+                        android:text="@string/item_post_val_title"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+                    <EditText
+                        android:id="@+id/value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/item_post_val_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mp_s"
+                app:cardCornerRadius="@dimen/card_cornerRadius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/mp_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_s"
+                        android:labelFor="@id/description"
+                        android:text="@string/item_post_desc_title"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+                    <EditText
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/item_post_desc_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapSentences|textMultiLine|textLongMessage"
+                        android:maxLength="1000"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mp_s"
+                app:cardCornerRadius="@dimen/card_cornerRadius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/mp_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_s"
+                        android:labelFor="@id/description"
+                        android:text="@string/item_post_img_title"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/thumbnail"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toTopOf="parent"
+                            app:layout_constraintDimensionRatio="H,16:9"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:srcCompat="@drawable/placeholder_image" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/progressCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/mp_m"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/card_cornerRadius">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mp_l"
-            android:layout_marginEnd="@dimen/mp_l"
-            android:hint="Deskripsi"
-            android:inputType="text"
-            android:selectAllOnFocus="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name" />
+            android:orientation="vertical"
+            android:padding="@dimen/mp_m">
 
-        <EditText
-            android:id="@+id/category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mp_l"
-            android:layout_marginEnd="@dimen/mp_l"
-            android:layout_marginTop="@dimen/mp_s"
-            android:hint="Kategori"
-            android:inputType="text"
-            android:selectAllOnFocus="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/mp_s"
+                android:labelFor="@id/description"
+                android:text="@string/action_uploading"
+                android:textColor="@color/grayDarkTextColor"
+                android:textSize="@dimen/material_text_title" />
 
-        <EditText
-            android:id="@+id/price_init"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mp_l"
-            android:layout_marginEnd="@dimen/mp_l"
-            android:layout_marginTop="@dimen/mp_s"
-            android:hint="Nilai barang"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/category" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mp_s"
+                android:indeterminate="true" />
 
-        <EditText
-            android:id="@+id/price_start"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mp_l"
-            android:layout_marginEnd="@dimen/mp_l"
-            android:layout_marginTop="@dimen/mp_s"
-            android:hint="Harga Awal"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/price_init" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/price_limit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mp_l"
-            android:layout_marginTop="@dimen/mp_s"
-            android:layout_marginEnd="@dimen/mp_l"
-            android:hint="Harga Limit"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price_start" />
+    </androidx.cardview.widget.CardView>
 
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mp_m"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price_limit" />
-
-        <Button
-            android:id="@+id/add_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mp_m"
-            android:text="Pasang Barang"
-            android:enabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loading" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

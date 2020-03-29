@@ -1,13 +1,18 @@
 <resources>
     <string name="app_name">Lelang Online</string>
+    <string name="welcome">"Welcome! "</string>
     <string name="action_register">Daftar sekarang</string>
     <string name="action_register_short">Daftar</string>
     <string name="action_sign_in">Masuk</string>
     <string name="action_post">Simpan</string>
-    <string name="welcome">"Welcome! "</string>
-    <string name="invalid_fullName">Nama tidak boleh kosong</string>
-    <string name="invalid_email">Email tidak valid</string>
-    <string name="invalid_password">Password minimal 8 karakter</string>
+    <string name="action_uploading">Sedang mengupload</string>
+    <string name="form_invalid_username">Nama tidak boleh kosong</string>
+    <string name="form_invalid_email">Email tidak valid</string>
+    <string name="form_invalid_password">Password minimal 8 karakter</string>
+    <string name="form_invalid_item_name">Nama barang tidak boleh kosong</string>
+    <string name="form_invalid_item_cat">Kategori barang tidak boleh kosong</string>
+    <string name="form_invalid_item_val">Harga barang tidak boleh kosong</string>
+    <string name="form_invalid_item_desc">Deskripsi barang tidak boleh kosong</string>
     <string name="title_name">Nama Lengkap</string>
     <string name="title_email">Email</string>
     <string name="title_password">Password</string>
@@ -22,6 +27,9 @@
     <string name="alert_disagree">@android:string/cancel</string>
     <string name="alert_conn_title">Error Koneksi</string>
     <string name="alert_conn_desc">Terjadi kesalahan pada koneksi atau server.</string>
+    <string name="alert_success_title">Upload Selesai</string>
+    <string name="alert_success_item_0_desc">Barang baru anda telah disimpan. (Error Gambar)</string>
+    <string name="alert_success_item_1_desc">Barang baru anda telah disimpan.</string>
     <string name="card_auction_stop">Lelang telah berakhir</string>
     <string name="card_auction_end">Lelang berakhir dalam:</string>
     <string name="card_auction_start">Lelang dimulai dalam:</string>

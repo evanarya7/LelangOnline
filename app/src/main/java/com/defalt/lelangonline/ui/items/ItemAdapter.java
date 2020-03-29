@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.defalt.lelangonline.R;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.recycle.BaseViewHolder;
@@ -99,9 +100,11 @@ public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         private Item thisItem;
         private TextView title, price;
         private ImageView thumbnail;
+        private Context mContext;
 
         ItemViewHolder(View view, final Context mContext) {
             super(view);
+            this.mContext = mContext;
             title = view.findViewById(R.id.title);
             price = view.findViewById(R.id.price);
             thumbnail = view.findViewById(R.id.thumbnail);
@@ -125,6 +128,14 @@ public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             title.setText(thisItem.getItemName());
             price.setText(SharedFunctions.formatRupiah(thisItem.getItemValue()));
+
+            thumbnail.setImageDrawable(null);
+            if (!thisItem.getItemImg().equals("null")) {
+                String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/items/";
+                Glide.with(mContext).load(IMAGE_URL + thisItem.getItemImg()).into(thumbnail);
+            } else {
+                Glide.with(mContext).load(R.drawable.placeholder_image).into(thumbnail);
+            }
         }
     }
 

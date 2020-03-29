@@ -65,9 +65,10 @@ public class TopAuctionTask extends AsyncTask<Integer, Void, Void> {
                         String itemName = c.getString("itemName");
                         Double itemValue = c.getDouble("itemValue");
                         Double priceStart = c.getDouble("priceStart");
+                        String itemImg = c.getString("itemImg");
                         int favCount = c.getInt("favCount");
 
-                        TopAuction au = new TopAuction(auctionID, auctionStart, auctionEnd, itemName, itemValue, priceStart, favCount, serverTime);
+                        TopAuction au = new TopAuction(auctionID, auctionStart, auctionEnd, itemName, itemValue, priceStart, itemImg, favCount, serverTime);
                         topAuctionList.add(au);
                     }
                 }
