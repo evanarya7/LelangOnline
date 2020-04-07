@@ -106,6 +106,7 @@ public class TopAuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         private TopAuction thisTopAuction;
         private TextView title, priceInit, priceStart, timerText, timer;
         private ImageView thumbnail;
+        private CountDownTimer countDownTimer;
 
         TopAuctionViewHolder(View view, final Context mContext) {
             super(view);
@@ -149,10 +150,15 @@ public class TopAuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 Glide.with(mContext).load(R.drawable.placeholder_image).into(thumbnail);
             }
 
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
+
             // Auction has not started
             if (startDiff > 0) {
                 timerText.setText(R.string.card_auction_start);
-                new CountDownTimer(startDiff, 1000) {
+                timer.setText(null);
+                countDownTimer = new CountDownTimer(startDiff, 1000) {
                     public void onTick(long millisUntilFinished) {
                         String timeLeft = String.format(Locale.getDefault(), "%02d:%02d:%02d",
                                 TimeUnit.MILLISECONDS.toHours(millisUntilFinished) % 60,
@@ -164,7 +170,8 @@ public class TopAuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     public void onFinish() {
                         // Auction has started but not ended yet
                         timerText.setText(R.string.card_auction_end);
-                        new CountDownTimer(endDiff, 1000) {
+                        timer.setText(null);
+                        countDownTimer = new CountDownTimer(endDiff, 1000) {
                             public void onTick(long millisUntilFinished) {
                                 String timeLeft = String.format(Locale.getDefault(), "%02d:%02d:%02d",
                                         TimeUnit.MILLISECONDS.toHours(millisUntilFinished) % 60,
@@ -176,16 +183,19 @@ public class TopAuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                             public void onFinish() {
                                 // Auction has ended
                                 timerText.setText(R.string.card_auction_stop);
-                                timer.setText("");
+                                timer.setText(null);
                             }
-                        }.start();
+                        };
+                        countDownTimer.start();
                     }
-                }.start();
+                };
+                countDownTimer.start();
 
-                // Auction has started but not ended yet
+            // Auction has started but not ended yet
             } else if (endDiff > 0) {
                 timerText.setText(R.string.card_auction_end);
-                new CountDownTimer(endDiff, 1000) {
+                timer.setText(null);
+                countDownTimer = new CountDownTimer(endDiff, 1000) {
                     public void onTick(long millisUntilFinished) {
                         String timeLeft = String.format(Locale.getDefault(), "%02d:%02d:%02d",
                                 TimeUnit.MILLISECONDS.toHours(millisUntilFinished) % 60,
@@ -197,14 +207,15 @@ public class TopAuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     public void onFinish() {
                         // Auction has ended
                         timerText.setText(R.string.card_auction_stop);
-                        timer.setText("");
+                        timer.setText(null);
                     }
-                }.start();
+                };
+                countDownTimer.start();
 
-                // Auction has ended
+            // Auction has ended
             } else {
                 timerText.setText(R.string.card_auction_stop);
-                timer.setText("");
+                timer.setText(null);
             }
         }
     }

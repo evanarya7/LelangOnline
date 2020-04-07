@@ -1,17 +1,20 @@
 package com.defalt.lelangonline;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.defalt.lelangonline.data.login.LoginRepository;
 import com.defalt.lelangonline.ui.account.AccountFragment;
+import com.defalt.lelangonline.ui.auctions.add.AuctionsAddActivity;
 import com.defalt.lelangonline.ui.home.HomeFragment;
 import com.defalt.lelangonline.ui.items.ItemsFragment;
 import com.defalt.lelangonline.ui.items.add.ItemsAddActivity;
@@ -87,13 +90,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         startActivity(intent);
     }
 
-    public void startLogout(View view) {
-        Intent intent = new Intent(this, LogoutActivity.class);
+    public void startAddAuctionActivity(View view) {
+        Intent intent = new Intent(this, AuctionsAddActivity.class);
         startActivity(intent);
-        finish();
     }
 
-    public static boolean isIsConnectionError() {
+    public void startLogout(View view) {
+        AlertDialog.Builder logoutDialog = new AlertDialog.Builder(this);
+        logoutDialog.setTitle(R.string.action_sign_out)
+                .setMessage(R.string.alert_confirm_sign_out)
+                .setNegativeButton(getApplicationContext().getString(R.string.alert_disagree), null)
+                .setPositiveButton(getApplicationContext().getString(R.string.alert_agree), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(MainActivity.this, LogoutActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).show();
+    }
+
+    public static boolean isConnectionError() {
         return isConnectionError;
     }
 

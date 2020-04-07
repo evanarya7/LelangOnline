@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Lelang Online</string>
-    <string name="welcome">"Welcome! "</string>
+    <string name="welcome">"Selamat Datang, "</string>
     <string name="action_register">Daftar sekarang</string>
     <string name="action_register_short">Daftar</string>
     <string name="action_sign_in">Masuk</string>
+    <string name="action_sign_out">Keluar</string>
     <string name="action_post">Simpan</string>
     <string name="action_uploading">Sedang mengupload</string>
     <string name="form_invalid_username">Nama tidak boleh kosong</string>
@@ -13,6 +14,11 @@
     <string name="form_invalid_item_cat">Kategori barang tidak boleh kosong</string>
     <string name="form_invalid_item_val">Harga barang tidak boleh kosong</string>
     <string name="form_invalid_item_desc">Deskripsi barang tidak boleh kosong</string>
+    <string name="form_invalid_auction_name">Nama barang tidak boleh kosong</string>
+    <string name="form_invalid_auction_init_price">Harga awal tidak boleh kosong</string>
+    <string name="form_invalid_auction_limit_price">Harga maksimal tidak boleh kosong</string>
+    <string name="form_invalid_auction_time_start">Waktu mulai lelang tidak boleh kosong</string>
+    <string name="form_invalid_auction_time_end">Waktu berakhir lelang tidak boleh kosong</string>
     <string name="title_name">Nama Lengkap</string>
     <string name="title_email">Email</string>
     <string name="title_password">Password</string>
@@ -25,11 +31,15 @@
     <string name="search_title">Cari barang</string>
     <string name="alert_agree">@android:string/ok</string>
     <string name="alert_disagree">@android:string/cancel</string>
-    <string name="alert_conn_title">Error Koneksi</string>
+    <string name="alert_confirm_sign_out">Apakah Anda yakin ingin keluar?</string>
+    <string name="alert_conn_title">Koneksi Gagal</string>
     <string name="alert_conn_desc">Terjadi kesalahan pada koneksi atau server.</string>
-    <string name="alert_success_title">Upload Selesai</string>
-    <string name="alert_success_item_0_desc">Barang baru anda telah disimpan. (Error Gambar)</string>
-    <string name="alert_success_item_1_desc">Barang baru anda telah disimpan.</string>
+    <string name="alert_post_success_title">Upload Selesai</string>
+    <string name="alert_post_success_item_0_desc">Barang baru anda telah disimpan. (Error Gambar)</string>
+    <string name="alert_post_success_item_1_desc">Barang baru anda telah disimpan.</string>
+    <string name="alert_post_success_auction_desc">Jadwal lelang untuk barang anda telah dibuat.</string>
+    <string name="alert_get_item_names_title">Tidak Ada Barang</string>
+    <string name="alert_get_item_names_desc">Anda tidak memiliki barang untuk dilelang.</string>
     <string name="card_auction_stop">Lelang telah berakhir</string>
     <string name="card_auction_end">Lelang berakhir dalam:</string>
     <string name="card_auction_start">Lelang dimulai dalam:</string>
@@ -69,4 +79,17 @@
     <string name="item_post_val_hint">Masukkan nilai barang</string>
     <string name="item_post_img_title">Foto Barang</string>
     <string name="item_post_img_hint">Tambahkan foto barang</string>
+    <string name="auction_post_name_title">Nama Barang</string>
+    <string name="auction_post_name_hint">Pilih Barang Anda</string>
+    <string name="auction_post_value_title">Nilai Barang</string>
+    <string name="auction_post_init_price_title">Harga Awal</string>
+    <string name="auction_post_init_price_hint">Masukkan besar tawaran awal</string>
+    <string name="auction_post_max_price_title">Harga Maksimal</string>
+    <string name="auction_post_max_price_hint">Masukkan besar tawaran maksimal</string>
+    <string name="auction_post_start_time_title">Waktu Mulai Lelang</string>
+    <string name="auction_post_start_date_hint">Tentukan tanggal mulai lelang</string>
+    <string name="auction_post_start_time_hint">Tentukan jam mulai lelang</string>
+    <string name="auction_post_end_time_title">Waktu Berakhir Lelang</string>
+    <string name="auction_post_end_date_hint">Tentukan tanggal berakhir lelang</string>
+    <string name="auction_post_end_time_hint">Tentukan jam berakhir lelang</string>
 </resources>

@@ -154,11 +154,11 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         public void showError() {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(CONTEXT);
-            alertDialog.setTitle(R.string.alert_conn_title);
-            alertDialog.setMessage(R.string.alert_conn_desc);
-            alertDialog.setIcon(R.drawable.ic_error_black_24dp);
-            alertDialog.setPositiveButton(CONTEXT.getString(R.string.alert_agree), null);
-            alertDialog.show();
+            alertDialog.setTitle(R.string.alert_conn_title)
+                    .setMessage(R.string.alert_conn_desc)
+                    .setIcon(R.drawable.ic_error_black_24dp)
+                    .setPositiveButton(CONTEXT.getString(R.string.alert_agree), null)
+                    .show();
         }
     }
 }

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shimmer_view_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.items.add.ItemsAddActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/mp_m"
+        android:paddingVertical="@dimen/mp_s">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/mp_s"
+            app:cardCornerRadius="@dimen/card_cornerRadius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/mp_m">
+
+                <View
+                    android:layout_width="192dp"
+                    android:layout_height="@dimen/material_text_headline"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_display1"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/mp_s"
+            app:cardCornerRadius="@dimen/card_cornerRadius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/mp_m">
+
+                <View
+                    android:layout_width="192dp"
+                    android:layout_height="@dimen/material_text_headline"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_display1"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/mp_s"
+            app:cardCornerRadius="@dimen/card_cornerRadius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/mp_m">
+
+                <View
+                    android:layout_width="192dp"
+                    android:layout_height="@dimen/material_text_headline"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_display1"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/mp_s"
+            app:cardCornerRadius="@dimen/card_cornerRadius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/mp_m">
+
+                <View
+                    android:layout_width="192dp"
+                    android:layout_height="@dimen/material_text_headline"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_display1"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_display1"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/mp_s"
+            app:cardCornerRadius="@dimen/card_cornerRadius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/mp_m">
+
+                <View
+                    android:layout_width="192dp"
+                    android:layout_height="@dimen/material_text_headline"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_display1"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_display1"
+                    android:layout_marginVertical="@dimen/mp_xs"
+                    android:background="@drawable/placeholder_block" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</com.facebook.shimmer.ShimmerFrameLayout>

@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private TopAuctionAdapter adapter;
     private ShimmerFrameLayout mShimmerViewContainer;
     private HomeUI homeUI;
-    private int totalPage = 2;
+    private int totalPage = 4;
     private int currentPage = PAGE_START;
     private static boolean isLastPage = false;
     private static boolean isLoading = false;

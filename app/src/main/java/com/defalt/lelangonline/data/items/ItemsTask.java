@@ -2,8 +2,12 @@ package com.defalt.lelangonline.data.items;
 
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import com.defalt.lelangonline.MainActivity;
 import com.defalt.lelangonline.data.JSONParser;
+import com.defalt.lelangonline.data.RestApi;
+import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.items.Item;
 import com.defalt.lelangonline.ui.items.ItemAdapter;
 import com.defalt.lelangonline.ui.items.ItemsFragment;
@@ -14,8 +18,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
@@ -37,69 +50,100 @@ public class ItemsTask extends AsyncTask<Integer, Void, Void> {
     }
 
     protected Void doInBackground(Integer... args) {
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("desiredCount", String.valueOf(args[0])));
-        params.add(new BasicNameValuePair("dataOffset", String.valueOf(args[1])));
+        RestApi server = SharedFunctions.getRetrofit().create(RestApi.class);
+        RequestBody desiredCount = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(args[0]));
+        RequestBody dataOffset = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(args[1]));
 
-        String url = "https://dev.projectlab.co.id/mit/1317003/get_items.php";
-        JSONParser jsonParser = new JSONParser();
-        JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
+        Call<ResponseBody> req = server.getItems(desiredCount, dataOffset);
 
-        if (json != null) {
-            try {
-                success = json.getInt("success");
+        req.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
+                    success = json.getInt("success");
 
-                if (success == 1) {
-                    JSONArray items = json.getJSONArray("items");
+                    if (success == 1) {
+                        JSONArray items = json.getJSONArray("items");
 
-                    for (int i = 0; i < items.length(); i++) {
-                        JSONObject c = items.getJSONObject(i);
-                        ItemsFragment.setItemCount(ItemsFragment.getItemCount() + 1);
+                        for (int i = 0; i < items.length(); i++) {
+                            JSONObject c = items.getJSONObject(i);
+                            ItemsFragment.setItemCount(ItemsFragment.getItemCount() + 1);
 
-                        String itemID = c.getString("itemID");
-                        String itemName = c.getString("itemName");
-                        String itemCat = c.getString("itemCat");
-                        Double itemValue = c.getDouble("itemValue");
-                        String itemImg = c.getString("itemImg");
-                        int favCount = c.getInt("favCount");
+                            String itemID = c.getString("itemID");
+                            String itemName = c.getString("itemName");
+                            String itemCat = c.getString("itemCat");
+                            Double itemValue = c.getDouble("itemValue");
+                            String itemImg = c.getString("itemImg");
+                            int favCount = c.getInt("favCount");
 
-                        Item im = new Item(itemID, itemName, itemCat, itemValue, itemImg, favCount);
-                        itemList.add(im);
+                            Item im = new Item(itemID, itemName, itemCat, itemValue, itemImg, favCount);
+                            itemList.add(im);
+                        }
                     }
+
+                    postExecute();
+                    if (success == 1) {
+                        executeSuccess();
+                    } else if (success == -1) {
+                        executeEmpty();
+                    } else if (success == 0) {
+                        executeError();
+                    }
+                    endExecute();
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+
+                    postExecute();
+                    executeError();
+                    endExecute();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                t.printStackTrace();
+
+                postExecute();
+                executeError();
+                endExecute();
+            }
+        });
 
         return null;
     }
 
-    protected void onPostExecute(Void result) {
+    private void postExecute() {
         if (currentPage != PAGE_START) {
             adapter.removeLoading();
         }
         adapter.addItems(itemList);
         itemsUI.setRefreshing(false);
+    }
 
-        if (success == 1) {
-            if (itemList.size() < totalPage) {
-                ItemsFragment.setLastPage(true);
-            } else {
-                adapter.addLoading();
-            }
-            itemsUI.updateUI();
-        } else if (success == -1) {
+    private void executeSuccess() {
+        if (itemList.size() < totalPage) {
             ItemsFragment.setLastPage(true);
-            itemsUI.updateUI();
-        } else if (success == 0) {
-            ItemsFragment.setLastPage(true);
-            if (!MainActivity.isIsConnectionError()) {
-                itemsUI.showError();
-                MainActivity.setIsConnectionError(true);
-            }
+        } else {
+            adapter.addLoading();
         }
+        itemsUI.updateUI();
+    }
 
+    private void executeEmpty() {
+        ItemsFragment.setLastPage(true);
+        itemsUI.updateUI();
+    }
+
+    private void executeError() {
+        ItemsFragment.setLastPage(true);
+        if (!MainActivity.isConnectionError()) {
+            itemsUI.showError();
+            MainActivity.setIsConnectionError(true);
+        }
+    }
+
+    private void endExecute() {
         ItemsFragment.setLoading(false);
     }
 

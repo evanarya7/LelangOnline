@@ -20,9 +20,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <include layout="@layout/activity_add_auction_placeholder" />
+
     <ScrollView
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".ui.items.add.ItemsAddActivity">
 
@@ -50,18 +54,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/mp_s"
                         android:labelFor="@id/name"
-                        android:text="@string/item_post_name_title"
+                        android:text="@string/auction_post_name_title"
                         android:textColor="@color/grayDarkTextColor"
                         android:textSize="@dimen/material_text_title" />
 
-                    <EditText
+                    <Spinner
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/item_post_name_hint"
-                        android:importantForAutofill="no"
-                        android:inputType="textCapWords"
-                        android:maxLength="50"
+                        android:paddingVertical="@dimen/mp_m"
+                        android:prompt="@string/auction_post_name_hint"
+                        android:spinnerMode="dialog"
                         android:textColor="@color/grayTextColor"
                         android:textSize="@dimen/material_text_subhead" />
 
@@ -85,19 +88,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/mp_s"
-                        android:labelFor="@id/category"
-                        android:text="@string/item_post_cat_title"
+                        android:labelFor="@id/itemValue"
+                        android:text="@string/auction_post_value_title"
                         android:textColor="@color/grayDarkTextColor"
                         android:textSize="@dimen/material_text_title" />
 
-                    <EditText
-                        android:id="@+id/category"
+                    <TextView
+                        android:id="@+id/itemValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/item_post_cat_hint"
-                        android:importantForAutofill="no"
-                        android:inputType="textCapWords"
-                        android:maxLength="50"
+                        android:paddingVertical="@dimen/mp_s"
                         android:textColor="@color/grayTextColor"
                         android:textSize="@dimen/material_text_subhead" />
 
@@ -121,16 +121,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/mp_s"
-                        android:labelFor="@id/value"
-                        android:text="@string/item_post_val_title"
+                        android:labelFor="@id/init_price"
+                        android:text="@string/auction_post_init_price_title"
                         android:textColor="@color/grayDarkTextColor"
                         android:textSize="@dimen/material_text_title" />
 
                     <me.abhinay.input.CurrencyEditText
-                        android:id="@+id/value"
+                        android:id="@+id/init_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/item_post_val_hint"
+                        android:hint="@string/auction_post_init_price_hint"
                         android:importantForAutofill="no"
                         android:inputType="number"
                         android:maxLength="15"
@@ -157,19 +157,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/mp_s"
-                        android:labelFor="@id/description"
-                        android:text="@string/item_post_desc_title"
+                        android:labelFor="@id/limit_price"
+                        android:text="@string/auction_post_max_price_title"
                         android:textColor="@color/grayDarkTextColor"
                         android:textSize="@dimen/material_text_title" />
 
-                    <EditText
-                        android:id="@+id/description"
+                    <me.abhinay.input.CurrencyEditText
+                        android:id="@+id/limit_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/item_post_desc_hint"
+                        android:hint="@string/auction_post_max_price_hint"
                         android:importantForAutofill="no"
-                        android:inputType="textCapSentences|textMultiLine|textLongMessage"
-                        android:maxLength="1000"
+                        android:inputType="number"
+                        android:maxLength="15"
                         android:textColor="@color/grayTextColor"
                         android:textSize="@dimen/material_text_subhead" />
 
@@ -193,31 +193,83 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/mp_s"
-                        android:labelFor="@id/description"
-                        android:text="@string/item_post_img_title"
+                        android:labelFor="@id/start_time"
+                        android:text="@string/auction_post_start_time_title"
                         android:textColor="@color/grayDarkTextColor"
                         android:textSize="@dimen/material_text_title" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <EditText
+                        android:id="@+id/start_date"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/auction_post_start_date_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="date"
+                        android:maxLength="50"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
 
-                        <ImageView
-                            android:id="@+id/thumbnail"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintBottom_toTopOf="parent"
-                            app:layout_constraintDimensionRatio="H,16:9"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed"
-                            app:srcCompat="@drawable/placeholder_image" />
+                    <EditText
+                        android:id="@+id/start_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/auction_post_start_time_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="time"
+                        android:maxLength="50"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mp_s"
+                app:cardCornerRadius="@dimen/card_cornerRadius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/mp_m">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/mp_s"
+                        android:labelFor="@id/start_time"
+                        android:text="@string/auction_post_end_time_title"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+                    <EditText
+                        android:id="@+id/end_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/auction_post_end_date_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="date"
+                        android:maxLength="50"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
+
+                    <EditText
+                        android:id="@+id/end_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/auction_post_end_time_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="time"
+                        android:maxLength="50"
+                        android:textColor="@color/grayTextColor"
+                        android:textSize="@dimen/material_text_subhead" />
 
                 </LinearLayout>
 
@@ -226,6 +278,14 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/grayDarkColor"
+        android:visibility="gone" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/progressCard"

@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+import me.abhinay.input.CurrencyEditText;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -60,7 +61,7 @@ public class ItemsAddActivity extends AppCompatActivity {
     private EditText nameEditText;
     private EditText descEditText;
     private EditText categoryEditText;
-    private EditText valueEditText;
+    private CurrencyEditText valueEditText;
     private ImageView thumbImageView;
     private CardView progressBarCard;
     private AwesomeValidation mAwesomeValidation;
@@ -78,7 +79,7 @@ public class ItemsAddActivity extends AppCompatActivity {
 
         nameEditText = findViewById(R.id.name);
         categoryEditText = findViewById(R.id.category);
-        valueEditText = findViewById(R.id.value);
+        valueEditText = SharedFunctions.setEditTextCurrency((CurrencyEditText) findViewById(R.id.value));
         descEditText = findViewById(R.id.description);
         thumbImageView = findViewById(R.id.thumbnail);
         progressBarCard = findViewById(R.id.progressCard);
@@ -233,7 +234,7 @@ public class ItemsAddActivity extends AppCompatActivity {
         RequestBody itemName = RequestBody.create(MediaType.parse("text/plain"), nameEditText.getText().toString());
         RequestBody itemDesc = RequestBody.create(MediaType.parse("text/plain"), descEditText.getText().toString());
         RequestBody itemCat = RequestBody.create(MediaType.parse("text/plain"), categoryEditText.getText().toString());
-        RequestBody itemVal = RequestBody.create(MediaType.parse("text/plain"), valueEditText.getText().toString());
+        RequestBody itemVal = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(valueEditText.getCleanIntValue()));
         RequestBody isImageEmptyBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(this.isImageEmpty));
         RequestBody userToken = RequestBody.create(MediaType.parse("text/plain"), LoginRepository.getLoggedInUser().getToken());
 
@@ -243,9 +244,9 @@ public class ItemsAddActivity extends AppCompatActivity {
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part itemImage = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
 
-            req = server.postItemImage(itemName, itemDesc, itemCat, itemVal, isImageEmptyBody, userToken, itemImage);
+            req = server.postItemWithImage(itemName, itemDesc, itemCat, itemVal, isImageEmptyBody, userToken, itemImage);
         } else {
-            req = server.postItem(itemName, itemDesc, itemCat, itemVal, isImageEmptyBody, userToken);
+            req = server.postItemNoImage(itemName, itemDesc, itemCat, itemVal, isImageEmptyBody, userToken);
         }
 
         req.enqueue(new Callback<ResponseBody>() {
@@ -267,17 +268,18 @@ public class ItemsAddActivity extends AppCompatActivity {
                             }
                         });
                         if (success == 1 && imgSuccess == 0) {
-                            alertDialog.setTitle(R.string.alert_success_title)
-                                    .setMessage(R.string.alert_success_item_0_desc)
+                            alertDialog.setTitle(R.string.alert_post_success_title)
+                                    .setMessage(R.string.alert_post_success_item_0_desc)
                                     .setIcon(R.drawable.ic_check_circle_black_24dp);
                         } else if (success == 1 && (imgSuccess == 1 || imgSuccess == -1)) {
-                            alertDialog.setTitle(R.string.alert_success_title)
-                                    .setMessage(R.string.alert_success_item_1_desc)
+                            alertDialog.setTitle(R.string.alert_post_success_title)
+                                    .setMessage(R.string.alert_post_success_item_1_desc)
                                     .setIcon(R.drawable.ic_check_circle_black_24dp);
                         }
                     }
                     progressBarCard.setVisibility(View.GONE);
-                    alertDialog.show();
+                    alertDialog.setCancelable(false)
+                            .show();
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
