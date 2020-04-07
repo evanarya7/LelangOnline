@@ -51,6 +51,51 @@ public interface RestApi {
             @Part("userToken") RequestBody userToken,
             @Part MultipartBody.Part image);
 
+    // EDIT BY USER ACTIVITY
+    @Multipart
+    @POST("/dev/mit/1317003/get_items_by_uid.php")
+    Call<ResponseBody> getItemsByUser(
+            @Part("desiredCount") RequestBody desiredCount,
+            @Part("dataOffset") RequestBody dataOffset,
+            @Part("token") RequestBody token);
+
+    @Multipart
+    @POST("/dev/mit/1317003/remove_item.php")
+    Call<ResponseBody> removeItem(
+            @Part("itemID") RequestBody itemID,
+            @Part("userToken") RequestBody token);
+
+    // ITEM EDIT ACTIVITY
+    @Multipart
+    @POST("/dev/mit/1317003/get_item_by_id.php")
+    Call<ResponseBody> getItemByID(
+            @Part("itemID") RequestBody itemID);
+
+    @Multipart
+    @POST("/dev/mit/1317003/update_item.php")
+    Call<ResponseBody> updateItemWithImage(
+            @Part("itemID") RequestBody itemID,
+            @Part("itemName") RequestBody itemName,
+            @Part("itemDesc") RequestBody itemDesc,
+            @Part("itemCat") RequestBody itemCat,
+            @Part("itemVal") RequestBody itemVal,
+            @Part("isImageEmpty") RequestBody isImageEmpty,
+            @Part("isImageChange") RequestBody isImageChange,
+            @Part("userToken") RequestBody userToken,
+            @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("/dev/mit/1317003/update_item.php")
+    Call<ResponseBody> updateItemNoImage(
+            @Part("itemID") RequestBody itemID,
+            @Part("itemName") RequestBody itemName,
+            @Part("itemDesc") RequestBody itemDesc,
+            @Part("itemCat") RequestBody itemCat,
+            @Part("itemVal") RequestBody itemVal,
+            @Part("isImageEmpty") RequestBody isImageEmpty,
+            @Part("isImageChange") RequestBody isImageChange,
+            @Part("userToken") RequestBody userToken);
+
     // ADD AUCTION ACTIVITY
     @Multipart
     @POST("/dev/mit/1317003/get_item_names_by_uid.php")

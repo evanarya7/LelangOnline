@@ -6,6 +6,8 @@
     <string name="action_sign_in">Masuk</string>
     <string name="action_sign_out">Keluar</string>
     <string name="action_post">Simpan</string>
+    <string name="action_update">Ubah</string>
+    <string name="action_remove">Hapus</string>
     <string name="action_uploading">Sedang mengupload</string>
     <string name="form_invalid_username">Nama tidak boleh kosong</string>
     <string name="form_invalid_email">Email tidak valid</string>
@@ -27,7 +29,7 @@
     <string name="title_home">Home</string>
     <string name="title_items">List Barang</string>
     <string name="title_favorite">Favorite</string>
-    <string name="title_account">Akun Saya</string>
+    <string name="title_account">Profil</string>
     <string name="search_title">Cari barang</string>
     <string name="alert_agree">@android:string/ok</string>
     <string name="alert_disagree">@android:string/cancel</string>
@@ -38,6 +40,13 @@
     <string name="alert_post_success_item_0_desc">Barang baru anda telah disimpan. (Error Gambar)</string>
     <string name="alert_post_success_item_1_desc">Barang baru anda telah disimpan.</string>
     <string name="alert_post_success_auction_desc">Jadwal lelang untuk barang anda telah dibuat.</string>
+    <string name="alert_update_success_title">Pembaharuan Berhasil</string>
+    <string name="alert_update_success_item_0_desc">Perubahan terhadap barang anda telah disimpan. (Error Gambar)</string>
+    <string name="alert_update_success_item_1_desc">Perubahan terhadap barang anda telah disimpan.</string>
+    <string name="alert_remove_confirm_title">Konfirmasi Hapus</string>
+    <string name="alert_remove_confirm_desc">Apakah anda yakin ingin menghapus barang ini?</string>
+    <string name="alert_remove_success_title">Hapus Berhasil</string>
+    <string name="alert_remove_success_desc">Barang anda telah dihapus dari daftar barang.</string>
     <string name="alert_get_item_names_title">Tidak Ada Barang</string>
     <string name="alert_get_item_names_desc">Anda tidak memiliki barang untuk dilelang.</string>
     <string name="card_auction_stop">Lelang telah berakhir</string>
@@ -61,6 +70,8 @@
     <string name="account_item_post_subtitle">Buat barang untuk dilelang</string>
     <string name="account_item_list_title">Daftar Barang</string>
     <string name="account_item_list_subtitle">Semua barang yang sudah dibuat</string>
+    <string name="account_item_edit_title">Edit Barang</string>
+    <string name="account_item_remove_title">Hapus Barang</string>
     <string name="account_auction_title">Lelang</string>
     <string name="account_auction_post_title">Lelang Baru</string>
     <string name="account_auction_post_subtitle">Buat jadwal lelang barang</string>

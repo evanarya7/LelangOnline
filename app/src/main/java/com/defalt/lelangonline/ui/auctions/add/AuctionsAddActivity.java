@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -290,6 +289,21 @@ public class AuctionsAddActivity extends AppCompatActivity implements View.OnCli
             isLoading = false;
         }
 
+        public void updateUIAfterUpload() {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mActivity);
+            alertDialog.setTitle(R.string.alert_post_success_title)
+                    .setMessage(R.string.alert_post_success_auction_desc)
+                    .setIcon(R.drawable.ic_check_circle_black_24dp)
+                    .setCancelable(false)
+                    .setPositiveButton(mActivity.getString(R.string.alert_agree), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mActivity.finish();
+                        }
+                    })
+                    .show();
+        }
+
         public void showConnErrorThenRetry() {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(mActivity);
             alertDialog.setTitle(R.string.alert_conn_title)
@@ -310,21 +324,6 @@ public class AuctionsAddActivity extends AppCompatActivity implements View.OnCli
                             isLoading = false;
                             overlay.setVisibility(View.GONE);
                             progressBarCard.setVisibility(View.GONE);
-                        }
-                    })
-                    .show();
-        }
-
-        public void updateUIAfterUpload() {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mActivity);
-            alertDialog.setTitle(R.string.alert_post_success_title)
-                    .setMessage(R.string.alert_post_success_auction_desc)
-                    .setIcon(R.drawable.ic_check_circle_black_24dp)
-                    .setCancelable(false)
-                    .setPositiveButton(mActivity.getString(R.string.alert_agree), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mActivity.finish();
                         }
                     })
                     .show();

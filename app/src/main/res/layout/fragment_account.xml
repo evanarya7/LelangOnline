@@ -306,7 +306,8 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground">
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:onClick="startItemsByUserActivity">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -424,7 +425,8 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground">
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:onClick="startAuctionByUserActivity">
 
                         <RelativeLayout
                             android:layout_width="match_parent"

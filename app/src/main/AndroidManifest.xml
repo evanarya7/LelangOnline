@@ -24,6 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -54,10 +55,20 @@
             android:label="@string/account_item_post_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.auctions.add.AuctionsAddActivity"
+        <activity
+            android:name=".ui.items.ItemsByUserActivity"
+            android:label="@string/account_item_list_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.items.edit.ItemsEditActivity"
+            android:label="@string/account_item_edit_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.auctions.add.AuctionsAddActivity"
             android:label="@string/account_auction_post_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/AppTheme" />

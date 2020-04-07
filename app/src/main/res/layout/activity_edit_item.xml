@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.items.add.ItemsAddActivity">
+    tools:context=".ui.items.edit.ItemsEditActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -21,9 +21,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <include layout="@layout/activity_edit_items_placeholder" />
+
     <ScrollView
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".ui.items.add.ItemsAddActivity">
 
@@ -213,8 +217,10 @@
                             app:layout_constraintBottom_toTopOf="parent"
                             app:layout_constraintDimensionRatio="H,16:9"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0"
                             app:layout_constraintVertical_chainStyle="packed"
                             app:srcCompat="@drawable/placeholder_image" />
 
@@ -227,6 +233,14 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/grayDarkColor"
+        android:visibility="gone" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/progressCard"

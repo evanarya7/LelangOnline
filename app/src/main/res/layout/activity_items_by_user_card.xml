@@ -49,35 +49,14 @@
                 android:id="@+id/thumbnail"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="@dimen/mp_m"
+                android:layout_marginVertical="@dimen/mp_m"
                 android:layout_marginEnd="@dimen/mp_m"
+                android:contentDescription="@string/item_post_img_title"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/placeholder_image" />
-
-            <ImageButton
-                android:id="@+id/favorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mp_s"
-                android:background="?android:selectableItemBackground"
-                android:padding="@dimen/mp_sm0"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/price"
-                app:srcCompat="@drawable/ic_favorite_black_24dp" />
-
-            <ImageButton
-                android:id="@+id/share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/mp_s"
-                android:background="?android:selectableItemBackground"
-                android:padding="@dimen/mp_sm0"
-                app:layout_constraintStart_toEndOf="@+id/favorite"
-                app:layout_constraintTop_toTopOf="@+id/favorite"
-                app:srcCompat="@drawable/ic_share_black_24dp" />
+                app:srcCompat="@drawable/placeholder_image" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

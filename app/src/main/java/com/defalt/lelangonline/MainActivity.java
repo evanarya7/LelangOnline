@@ -16,6 +16,7 @@ import com.defalt.lelangonline.data.login.LoginRepository;
 import com.defalt.lelangonline.ui.account.AccountFragment;
 import com.defalt.lelangonline.ui.auctions.add.AuctionsAddActivity;
 import com.defalt.lelangonline.ui.home.HomeFragment;
+import com.defalt.lelangonline.ui.items.ItemsByUserActivity;
 import com.defalt.lelangonline.ui.items.ItemsFragment;
 import com.defalt.lelangonline.ui.items.add.ItemsAddActivity;
 import com.defalt.lelangonline.ui.logout.LogoutActivity;
@@ -90,9 +91,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         startActivity(intent);
     }
 
+    public void startItemsByUserActivity(View view) {
+        Intent intent = new Intent(this, ItemsByUserActivity.class);
+        startActivity(intent);
+    }
+
     public void startAddAuctionActivity(View view) {
         Intent intent = new Intent(this, AuctionsAddActivity.class);
         startActivity(intent);
+    }
+
+    public void startAuctionByUserActivity(View view) {
     }
 
     public void startLogout(View view) {

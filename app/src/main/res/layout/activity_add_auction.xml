@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".ui.items.add.ItemsAddActivity">
+        tools:context=".ui.auctions.add.AuctionsAddActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
