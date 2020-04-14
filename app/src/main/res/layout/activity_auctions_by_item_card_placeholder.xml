@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/plc_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/mp_m"
+        android:layout_marginTop="@dimen/mp_s"
+        android:layout_marginEnd="@dimen/mp_m"
+        android:layout_marginBottom="@dimen/mp_s"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/card_cornerRadius">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mp_m"
+                android:layout_marginTop="@dimen/mp_m"
+                android:textColor="@color/grayTextColor"
+                android:textSize="@dimen/material_text_title"
+                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mp_m"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/grayLightTextColor"
+                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
+
+            <RelativeLayout
+                android:id="@+id/priceBlock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mp_m"
+                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/value">
+
+                <TextView
+                    android:id="@+id/priceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/card_details_price"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="@dimen/material_text_subhead" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/mp_xs"
+                    android:layout_toEndOf="@id/priceText"
+                    android:textColor="@color/orangeTextColor"
+                    android:textSize="@dimen/material_text_subhead"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mp_m"
+                android:layout_marginTop="@dimen/mp_s"
+                android:layout_marginBottom="@dimen/mp_m"
+                android:background="@color/grayLightColor"
+                android:paddingHorizontal="@dimen/mp_s"
+                android:paddingVertical="@dimen/mp_s"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/priceBlock">
+
+                <TextView
+                    android:id="@+id/timerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/timer"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="@dimen/mp_xs"
+                    android:layout_toStartOf="@id/timer"
+                    android:lineSpacingExtra="8dp"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="@dimen/material_text_body1" />
+
+                <TextView
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/grayDarkTextColor"
+                    android:textSize="@dimen/material_text_subhead" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginVertical="@dimen/mp_m"
+                android:layout_marginEnd="@dimen/mp_m"
+                android:contentDescription="@string/item_post_img_title"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/placeholder_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
