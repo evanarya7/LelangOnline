@@ -58,15 +58,19 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                             try {
-                                JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                                int success = json.getInt("success");
+                                if (response.body() != null) {
+                                    JSONObject json = new JSONObject(response.body().string());
+                                    int success = json.getInt("success");
 
-                                if (success == 1) {
-                                    LoginRepository.setLoggedInUser(new LoggedInUser(token, username));
-                                } else if (success == 2) {
-                                    PreferencesManager.instance().clear();
+                                    if (success == 1) {
+                                        LoginRepository.setLoggedInUser(new LoggedInUser(token, username));
+                                    } else if (success == 2) {
+                                        PreferencesManager.instance().clear();
+                                    }
+                                    SplashUI.startApp(mActivity);
+                                } else {
+                                    SplashUI.showConnError(mActivity);
                                 }
-                                SplashUI.startApp(mActivity);
                             } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                                 SplashUI.showConnError(mActivity);

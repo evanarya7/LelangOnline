@@ -109,7 +109,7 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     private void prepareData() {
-        new HistoryTask(adapter, new ArrayList<Bid>(), currentPage, totalPage, historyUI).execute(auctionID, String.valueOf(totalPage), String.valueOf(itemCount));
+        new HistoryTask(adapter, new ArrayList<Bid>(), currentPage, totalPage, historyUI).execute(String.valueOf(totalPage), String.valueOf(itemCount), auctionID);
     }
 
     public static class HistoryUI {

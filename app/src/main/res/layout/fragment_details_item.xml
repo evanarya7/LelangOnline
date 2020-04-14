@@ -9,7 +9,7 @@
 
     <include
         android:visibility="visible"
-        layout="@layout/fragment_account_placeholder" />
+        layout="@layout/fragment_details_item_placeholder" />
 
     <ScrollView
         android:id="@+id/container"

@@ -57,40 +57,46 @@ public class TopAuctionTask extends AsyncTask<Integer, Void, Void> {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    success = json.getInt("success");
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
 
-                    if (success == 1) {
-                        Timestamp serverTime = SharedFunctions.parseDate(json.getString("serverTime"));
-                        JSONArray items = json.getJSONArray("auctions");
+                        if (success == 1) {
+                            Timestamp serverTime = SharedFunctions.parseDate(json.getString("serverTime"));
+                            JSONArray items = json.getJSONArray("auctions");
 
-                        for (int i = 0; i < items.length(); i++) {
-                            JSONObject c = items.getJSONObject(i);
-                            HomeFragment.setItemCount(HomeFragment.getItemCount() + 1);
+                            for (int i = 0; i < items.length(); i++) {
+                                JSONObject c = items.getJSONObject(i);
+                                HomeFragment.setItemCount(HomeFragment.getItemCount() + 1);
 
-                            String auctionID = c.getString("auctionID");
-                            Timestamp auctionStart = SharedFunctions.parseDate(c.getString("auctionStart"));
-                            Timestamp auctionEnd = SharedFunctions.parseDate(c.getString("auctionEnd"));
-                            String itemName = c.getString("itemName");
-                            Double itemValue = c.getDouble("itemValue");
-                            Double priceStart = c.getDouble("priceStart");
-                            String itemImg = c.getString("itemImg");
-                            int favCount = c.getInt("favCount");
+                                String auctionID = c.getString("auctionID");
+                                Timestamp auctionStart = SharedFunctions.parseDate(c.getString("auctionStart"));
+                                Timestamp auctionEnd = SharedFunctions.parseDate(c.getString("auctionEnd"));
+                                String itemName = c.getString("itemName");
+                                Double itemValue = c.getDouble("itemValue");
+                                Double priceStart = c.getDouble("priceStart");
+                                String itemImg = c.getString("itemImg");
+                                int favCount = c.getInt("favCount");
 
-                            TopAuction au = new TopAuction(auctionID, auctionStart, auctionEnd, itemName, itemValue, priceStart, itemImg, favCount, serverTime);
-                            topAuctionList.add(au);
+                                TopAuction au = new TopAuction(auctionID, auctionStart, auctionEnd, itemName, itemValue, priceStart, itemImg, favCount, serverTime);
+                                topAuctionList.add(au);
+                            }
                         }
-                    }
 
-                    postExecute();
-                    if (success == 1) {
-                        executeSuccess();
-                    } else if (success == -1) {
-                        executeEmpty();
-                    } else if (success == 0) {
+                        postExecute();
+                        if (success == 1) {
+                            executeSuccess();
+                        } else if (success == -1) {
+                            executeEmpty();
+                        } else if (success == 0) {
+                            executeError();
+                        }
+                        endExecute();
+                    } else {
+                        postExecute();
                         executeError();
+                        endExecute();
                     }
-                    endExecute();
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
 

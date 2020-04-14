@@ -45,25 +45,29 @@ public class ItemNamesByUserTask extends AsyncTask<String, Void, Void> {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    success = json.getInt("success");
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
 
-                    if (success == 1) {
-                        JSONArray names = json.getJSONArray("names");
-                        JSONArray values = json.getJSONArray("values");
+                        if (success == 1) {
+                            JSONArray names = json.getJSONArray("names");
+                            JSONArray values = json.getJSONArray("values");
 
-                        for (int i = 0; i < names.length(); i++) {
-                            nameList.add(names.getString(i));
+                            for (int i = 0; i < names.length(); i++) {
+                                nameList.add(names.getString(i));
+                            }
+
+                            for (int i = 0; i < values.length(); i++) {
+                                valueList.add(SharedFunctions.formatRupiah(values.getDouble(i)));
+                            }
+
+                            auctionsAddUI.updateSpinner(nameList, valueList);
+                        } else if (success == -1) {
+                            auctionsAddUI.showEmptyItems();
+                        } else if (success == 0) {
+                            auctionsAddUI.showConnError();
                         }
-
-                        for (int i = 0; i < values.length(); i++) {
-                            valueList.add(SharedFunctions.formatRupiah(values.getDouble(i)));
-                        }
-
-                        auctionsAddUI.updateSpinner(nameList, valueList);
-                    } else if (success == -1) {
-                        auctionsAddUI.showEmptyItems();
-                    } else if (success == 0) {
+                    } else {
                         auctionsAddUI.showConnError();
                     }
                 } catch (JSONException | IOException e) {

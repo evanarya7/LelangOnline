@@ -25,7 +25,7 @@ import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
 public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private ItemAdapter adapter;
+    private ItemsAdapter adapter;
     private ShimmerFrameLayout mShimmerViewContainer;
     private ItemsUI itemsUI;
     private int totalPage = 6;
@@ -50,7 +50,7 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ItemAdapter(getContext(), new ArrayList<Item>());
+        adapter = new ItemsAdapter(getContext(), new ArrayList<Item>());
         mRecyclerView.setAdapter(adapter);
 
         itemsUI = new ItemsUI(mShimmerViewContainer, mRecyclerView, swipeRefresh, getContext());

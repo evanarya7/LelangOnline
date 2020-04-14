@@ -1,6 +1,7 @@
 package com.defalt.lelangonline.ui.items;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.defalt.lelangonline.R;
 import com.defalt.lelangonline.ui.SharedFunctions;
+import com.defalt.lelangonline.ui.auctions.AuctionsActivity;
 import com.defalt.lelangonline.ui.recycle.BaseViewHolder;
 import com.defalt.lelangonline.ui.recycle.ProgressHolder;
 
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class ItemsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
@@ -27,7 +29,7 @@ public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private final Context mContext;
     private List<Item> itemList;
 
-    ItemAdapter(Context mContext, List<Item> itemList) {
+    ItemsAdapter(Context mContext, List<Item> itemList) {
         this.mContext = mContext;
         this.itemList = itemList;
     }
@@ -109,15 +111,14 @@ public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             price = view.findViewById(R.id.price);
             thumbnail = view.findViewById(R.id.thumbnail);
 
-            // TODO
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(mContext, AuctionActivity.class);
-//                    intent.putExtra("TAG_EXTRA", thisItem.getItemID());
-//                    mContext.startActivity(intent);
-//                }
-//            });
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, AuctionsActivity.class);
+                    intent.putExtra("TAG_EXTRA", thisItem.getItemID());
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         protected void clear() { }

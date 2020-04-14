@@ -20,105 +20,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <View
                 android:id="@+id/title"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/material_text_title"
                 android:layout_marginHorizontal="@dimen/mp_m"
                 android:layout_marginTop="@dimen/mp_m"
-                android:textColor="@color/grayTextColor"
-                android:textSize="@dimen/material_text_title"
+                android:background="@drawable/placeholder_block"
                 app:layout_constraintEnd_toStartOf="@+id/thumbnail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <View
                 android:id="@+id/value"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/mp_m"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/grayLightTextColor"
-                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                android:layout_width="128dp"
+                android:layout_height="@dimen/material_text_subhead"
+                android:layout_marginVertical="@dimen/mp_s"
+                android:layout_marginStart="@dimen/mp_m"
+                android:background="@drawable/placeholder_block"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />
 
-            <RelativeLayout
+            <View
                 android:id="@+id/priceBlock"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="192dp"
+                android:layout_height="@dimen/material_text_subhead"
                 android:layout_marginHorizontal="@dimen/mp_m"
-                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                android:layout_marginVertical="@dimen/mp_s"
+                android:background="@drawable/placeholder_block"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/value">
-
-                <TextView
-                    android:id="@+id/priceText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/card_details_price"
-                    android:textColor="@color/grayTextColor"
-                    android:textSize="@dimen/material_text_subhead" />
-
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/mp_xs"
-                    android:layout_toEndOf="@id/priceText"
-                    android:textColor="@color/orangeTextColor"
-                    android:textSize="@dimen/material_text_subhead"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
+                app:layout_constraintTop_toBottomOf="@+id/value" />
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/mp_m"
-                android:layout_marginTop="@dimen/mp_s"
+                android:layout_marginTop="@dimen/mp_m"
                 android:layout_marginBottom="@dimen/mp_m"
                 android:background="@color/grayLightColor"
                 android:paddingHorizontal="@dimen/mp_s"
                 android:paddingVertical="@dimen/mp_s"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/priceBlock">
 
-                <TextView
-                    android:id="@+id/timerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/timer"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="@dimen/mp_xs"
-                    android:layout_toStartOf="@id/timer"
-                    android:lineSpacingExtra="8dp"
-                    android:textColor="@color/grayTextColor"
-                    android:textSize="@dimen/material_text_body1" />
-
-                <TextView
-                    android:id="@+id/timer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:textColor="@color/grayDarkTextColor"
-                    android:textSize="@dimen/material_text_subhead" />
+                <View
+                    android:id="@+id/plc_timer"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/material_text_body1"
+                    android:background="@drawable/placeholder_block" />
 
             </RelativeLayout>
 
-            <ImageView
+            <View
                 android:id="@+id/thumbnail"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginVertical="@dimen/mp_m"
+                android:layout_marginTop="@dimen/mp_m"
                 android:layout_marginEnd="@dimen/mp_m"
-                android:contentDescription="@string/item_post_img_title"
+                android:background="@color/grayDarkColor"
                 android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/placeholder_image" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

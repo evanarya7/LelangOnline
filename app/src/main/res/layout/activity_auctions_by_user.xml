@@ -23,17 +23,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_user_card_placeholder" />
 
-            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_user_card_placeholder" />
 
-            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_user_card_placeholder" />
 
-            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_user_card_placeholder" />
 
-            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_user_card_placeholder" />
 
-            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_user_card_placeholder" />
 
         </LinearLayout>
 

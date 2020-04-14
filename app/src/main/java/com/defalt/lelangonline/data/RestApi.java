@@ -22,12 +22,34 @@ public interface RestApi {
             @Part("desiredCount") RequestBody desiredCount,
             @Part("dataOffset") RequestBody dataOffset);
 
+    // DETAILS ACTIVITY
+    @Multipart
+    @POST("/dev/mit/1317003/get_details.php")
+    Call<ResponseBody> getDetails(
+            @Part("auctionID") RequestBody auctionID);
+
+    // DETAILS ACTIVITY
+    @Multipart
+    @POST("/dev/mit/1317003/get_details_history.php")
+    Call<ResponseBody> getDetailsHistory(
+            @Part("desiredCount") RequestBody desiredCount,
+            @Part("dataOffset") RequestBody dataOffset,
+            @Part("auctionID") RequestBody auctionID);
+
     // ITEMS FRAGMENT
     @Multipart
     @POST("/dev/mit/1317003/get_items.php")
     Call<ResponseBody> getItems(
             @Part("desiredCount") RequestBody desiredCount,
             @Part("dataOffset") RequestBody dataOffset);
+
+    // AUCTION BY ITEM ACTIVITY
+    @Multipart
+    @POST("/dev/mit/1317003/get_auction_by_item.php")
+    Call<ResponseBody> getAuctionsByItem(
+            @Part("desiredCount") RequestBody desiredCount,
+            @Part("dataOffset") RequestBody dataOffset,
+            @Part("itemID") RequestBody itemID);
 
     // ADD ITEM ACTIVITY
     @Multipart
@@ -51,7 +73,7 @@ public interface RestApi {
             @Part("userToken") RequestBody userToken,
             @Part MultipartBody.Part image);
 
-    // EDIT BY USER ACTIVITY
+    // ITEM BY USER ACTIVITY
     @Multipart
     @POST("/dev/mit/1317003/get_items_by_uid.php")
     Call<ResponseBody> getItemsByUser(
@@ -110,4 +132,12 @@ public interface RestApi {
             @Part("limitPrice") RequestBody limitPrice,
             @Part("auctionStart") RequestBody auctionStart,
             @Part("auctionEnd") RequestBody auctionEnd);
+
+    // AUCTION BY USER ACTIVITY
+    @Multipart
+    @POST("/dev/mit/1317003/get_auction_by_uid.php")
+    Call<ResponseBody> getAuctionsByUser(
+            @Part("desiredCount") RequestBody desiredCount,
+            @Part("dataOffset") RequestBody dataOffset,
+            @Part("token") RequestBody token);
 }

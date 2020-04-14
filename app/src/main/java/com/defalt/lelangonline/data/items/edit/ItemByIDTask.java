@@ -39,11 +39,15 @@ public class ItemByIDTask extends AsyncTask<String, Void, Void> {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    success = json.getInt("success");
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
 
-                    if (success == 1) {
-                        itemsEditUI.updateEditText(json.getString("itemName"), json.getString("itemCat"), json.getDouble("itemValue"), json.getString("itemDesc"), json.getString("itemImg"));
+                        if (success == 1) {
+                            itemsEditUI.updateEditText(json.getString("itemName"), json.getString("itemCat"), json.getDouble("itemValue"), json.getString("itemDesc"), json.getString("itemImg"));
+                        } else {
+                            itemsEditUI.showConnError();
+                        }
                     } else {
                         itemsEditUI.showConnError();
                     }

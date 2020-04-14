@@ -1,4 +1,4 @@
-package com.defalt.lelangonline.ui.auctions.add;
+package com.defalt.lelangonline.ui.auctions;
 
 import java.sql.Timestamp;
 

@@ -2,21 +2,29 @@ package com.defalt.lelangonline.data.details;
 
 import android.os.AsyncTask;
 
-import com.defalt.lelangonline.data.JSONParser;
+import androidx.annotation.NonNull;
+
+import com.defalt.lelangonline.data.RestApi;
+import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.details.Bid;
 import com.defalt.lelangonline.ui.details.BidAdapter;
 import com.defalt.lelangonline.ui.details.DetailsActivity;
 import com.defalt.lelangonline.ui.details.HistoryFragment;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
@@ -38,66 +46,104 @@ public class HistoryTask extends AsyncTask<String, Void, Void> {
     }
 
     protected Void doInBackground(String... args) {
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("auctionID", args[0]));
-        params.add(new BasicNameValuePair("desiredCount", args[1]));
-        params.add(new BasicNameValuePair("dataOffset", args[2]));
+        RestApi server = SharedFunctions.getRetrofit().create(RestApi.class);
+        RequestBody desiredCount = RequestBody.create(MediaType.parse("text/plain"), args[0]);
+        RequestBody dataOffset = RequestBody.create(MediaType.parse("text/plain"), args[1]);
+        RequestBody auctionID = RequestBody.create(MediaType.parse("text/plain"), args[2]);
 
-        String url = "https://dev.projectlab.co.id/mit/1317003/get_details_history.php";
-        JSONParser jsonParser = new JSONParser();
-        JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
+        Call<ResponseBody> req = server.getDetailsHistory(desiredCount, dataOffset, auctionID);
 
-        if (json != null) {
-            try {
-                success = json.getInt("success");
+        req.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
 
-                if (success == 1) {
-                    JSONArray items = json.getJSONArray("bids");
+                        if (success == 1) {
+                            JSONArray items = json.getJSONArray("bids");
 
-                    for (int i = 0; i < items.length(); i++) {
-                        JSONObject c = items.getJSONObject(i);
+                            for (int i = 0; i < items.length(); i++) {
+                                JSONObject c = items.getJSONObject(i);
 
-                        String userName = c.getString("userName");
-                        Double bidPrice = c.getDouble("bidPrice");
-                        Timestamp bidTime = Timestamp.valueOf(c.getString("bidTime"));
+                                String userName = c.getString("userName");
+                                Double bidPrice = c.getDouble("bidPrice");
+                                Timestamp bidTime = Timestamp.valueOf(c.getString("bidTime"));
 
-                        Bid im = new Bid(userName, bidPrice, bidTime);
-                        bidList.add(im);
+                                Bid im = new Bid(userName, bidPrice, bidTime);
+                                bidList.add(im);
+                            }
+                        }
+
+                        postExecute();
+                        if (success == 1) {
+                            executeSuccess();
+                        } else if (success == -1) {
+                            executeEmpty();
+                        } else if (success == 0) {
+                            executeError();
+                        }
+                        endExecute();
+                    } else {
+                        postExecute();
+                        executeError();
+                        endExecute();
                     }
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+
+                    postExecute();
+                    executeError();
+                    endExecute();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
+
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                t.printStackTrace();
+
+                postExecute();
+                executeError();
+                endExecute();
+            }
+        });
 
         return null;
     }
 
-    protected void onPostExecute(Void result) {
+    private void postExecute() {
         if (currentPage != PAGE_START) {
             adapter.removeLoading();
         }
         adapter.addItems(bidList);
         historyUI.setRefreshing(false);
+    }
 
-        if (success == 1) {
-            if (bidList.size() < totalPage) {
-                HistoryFragment.setLastPage(true);
-            } else {
-                adapter.addLoading();
-            }
-            historyUI.updateUI();
-        } else if (success == -1) {
+    private void executeSuccess() {
+        if (bidList.size() < totalPage) {
             HistoryFragment.setLastPage(true);
-            historyUI.updateUI();
-        } else if (success == 0) {
-            HistoryFragment.setLastPage(true);
-            if (!DetailsActivity.isIsConnectionError()) {
-                historyUI.showError();
-                DetailsActivity.setIsConnectionError(true);
-            }
+        } else {
+            adapter.addLoading();
         }
+        historyUI.updateUI();
+    }
 
+    private void executeEmpty() {
+        HistoryFragment.setLastPage(true);
+        historyUI.updateUI();
+    }
+
+    private void executeError() {
+        HistoryFragment.setLastPage(true);
+        if (!DetailsActivity.isIsConnectionError()) {
+            historyUI.showError();
+            DetailsActivity.setIsConnectionError(true);
+        }
+    }
+
+    private void endExecute() {
         HistoryFragment.setLoading(false);
     }
 

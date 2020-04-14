@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.items.Item;
-import com.defalt.lelangonline.ui.items.ItemByUserAdapter;
+import com.defalt.lelangonline.ui.items.ItemsByUserAdapter;
 import com.defalt.lelangonline.ui.items.ItemsByUserActivity;
 
 import org.json.JSONArray;
@@ -30,13 +30,13 @@ import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 public class ItemsByUserTask extends AsyncTask<String, Void, Void> {
     private int success;
 
-    private ItemByUserAdapter adapter;
+    private ItemsByUserAdapter adapter;
     private List<Item> itemList;
     private int currentPage;
     private int totalPage;
     private ItemsByUserActivity.ItemsByUserUI itemsByUserUI;
 
-    public ItemsByUserTask(ItemByUserAdapter adapter, List<Item> itemList, int currentPage, int totalPage, ItemsByUserActivity.ItemsByUserUI itemsByUserUI) {
+    public ItemsByUserTask(ItemsByUserAdapter adapter, List<Item> itemList, int currentPage, int totalPage, ItemsByUserActivity.ItemsByUserUI itemsByUserUI) {
         this.adapter = adapter;
         this.itemList = itemList;
         this.currentPage = currentPage;
@@ -56,37 +56,43 @@ public class ItemsByUserTask extends AsyncTask<String, Void, Void> {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    success = json.getInt("success");
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
 
-                    if (success == 1) {
-                        JSONArray items = json.getJSONArray("items");
+                        if (success == 1) {
+                            JSONArray items = json.getJSONArray("items");
 
-                        for (int i = 0; i < items.length(); i++) {
-                            JSONObject c = items.getJSONObject(i);
-                            ItemsByUserActivity.setItemCount(ItemsByUserActivity.getItemCount() + 1);
+                            for (int i = 0; i < items.length(); i++) {
+                                JSONObject c = items.getJSONObject(i);
+                                ItemsByUserActivity.setItemCount(ItemsByUserActivity.getItemCount() + 1);
 
-                            String itemID = c.getString("itemID");
-                            String itemName = c.getString("itemName");
-                            String itemCat = c.getString("itemCat");
-                            Double itemValue = c.getDouble("itemValue");
-                            String itemImg = c.getString("itemImg");
-                            int favCount = c.getInt("favCount");
+                                String itemID = c.getString("itemID");
+                                String itemName = c.getString("itemName");
+                                String itemCat = c.getString("itemCat");
+                                Double itemValue = c.getDouble("itemValue");
+                                String itemImg = c.getString("itemImg");
+                                int favCount = c.getInt("favCount");
 
-                            Item im = new Item(itemID, itemName, itemCat, itemValue, itemImg, favCount);
-                            itemList.add(im);
+                                Item im = new Item(itemID, itemName, itemCat, itemValue, itemImg, favCount);
+                                itemList.add(im);
+                            }
                         }
-                    }
 
-                    postExecute();
-                    if (success == 1) {
-                        executeSuccess();
-                    } else if (success == -1) {
-                        executeEmpty();
-                    } else if (success == 0) {
+                        postExecute();
+                        if (success == 1) {
+                            executeSuccess();
+                        } else if (success == -1) {
+                            executeEmpty();
+                        } else if (success == 0) {
+                            executeError();
+                        }
+                        endExecute();
+                    } else {
+                        postExecute();
                         executeError();
+                        endExecute();
                     }
-                    endExecute();
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
 

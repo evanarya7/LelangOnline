@@ -28,7 +28,7 @@
                 android:layout_marginTop="@dimen/mp_m"
                 android:textColor="@color/grayTextColor"
                 android:textSize="@dimen/material_text_title"
-                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
                 android:layout_marginHorizontal="@dimen/mp_m"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/grayLightTextColor"
-                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -48,7 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/mp_m"
-                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/value">
 
@@ -76,15 +76,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/mp_m"
-                android:layout_marginTop="@dimen/mp_s"
+                android:layout_marginTop="@dimen/mp_m"
                 android:layout_marginBottom="@dimen/mp_m"
                 android:background="@color/grayLightColor"
                 android:paddingHorizontal="@dimen/mp_s"
                 android:paddingVertical="@dimen/mp_s"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/priceBlock">
+                app:layout_constraintTop_toBottomOf="@+id/priceBlock"
+                app:layout_constraintVertical_bias="1.0">
 
                 <TextView
                     android:id="@+id/timerText"
@@ -107,18 +108,6 @@
                     android:textSize="@dimen/material_text_subhead" />
 
             </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/thumbnail"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginVertical="@dimen/mp_m"
-                android:layout_marginEnd="@dimen/mp_m"
-                android:contentDescription="@string/item_post_img_title"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/placeholder_image" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

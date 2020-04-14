@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.items.ItemsByUserActivity">
+    tools:context=".ui.auctions.AuctionsActivity">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
@@ -23,17 +23,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/activity_items_by_user_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
 
-            <include layout="@layout/activity_items_by_user_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
 
-            <include layout="@layout/activity_items_by_user_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
 
-            <include layout="@layout/activity_items_by_user_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
 
-            <include layout="@layout/activity_items_by_user_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
 
-            <include layout="@layout/activity_items_by_user_card_placeholder" />
+            <include layout="@layout/activity_auctions_by_item_card_placeholder" />
 
         </LinearLayout>
 

@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
-public class AuctionTask extends AsyncTask<String, Void, Void> {
+public class AuctionsTask extends AsyncTask<String, Void, Void> {
     private int success;
 
     private AuctionsAdapter adapter;
@@ -36,7 +36,7 @@ public class AuctionTask extends AsyncTask<String, Void, Void> {
     private int totalPage;
     private AuctionsActivity.AuctionsUI auctionsUI;
 
-    public AuctionTask(AuctionsAdapter adapter, List<Auction> auctionList, int currentPage, int totalPage, AuctionsActivity.AuctionsUI auctionsUI) {
+    public AuctionsTask(AuctionsAdapter adapter, List<Auction> auctionList, int currentPage, int totalPage, AuctionsActivity.AuctionsUI auctionsUI) {
         this.adapter = adapter;
         this.auctionList = auctionList;
         this.currentPage = currentPage;

@@ -27,8 +27,9 @@
                 android:layout_marginStart="@dimen/mp_m"
                 android:layout_marginTop="@dimen/mp_m"
                 android:layout_marginEnd="@dimen/mp_m"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@android:color/primary_text_light"
+                android:textColor="@color/grayDarkTextColor"
+                android:textSize="@dimen/material_text_title"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/thumbnail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/mp_m"
                 android:layout_marginEnd="@dimen/mp_m"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@android:color/primary_text_light"
+                android:textColor="@color/grayTextColor"
+                android:textSize="@dimen/material_text_subhead"
                 app:layout_constraintEnd_toStartOf="@+id/thumbnail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />

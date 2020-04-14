@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.auctions.Auction;
-import com.defalt.lelangonline.ui.auctions.AuctionsAdapter;
-import com.defalt.lelangonline.ui.auctions.AuctionsActivity;
+import com.defalt.lelangonline.ui.auctions.AuctionsByUserActivity;
+import com.defalt.lelangonline.ui.auctions.AuctionsByUserAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,30 +27,30 @@ import retrofit2.Response;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
-public class AuctionTask extends AsyncTask<String, Void, Void> {
+public class AuctionsByUserTask extends AsyncTask<String, Void, Void> {
     private int success;
 
-    private AuctionsAdapter adapter;
+    private AuctionsByUserAdapter adapter;
     private List<Auction> auctionList;
     private int currentPage;
     private int totalPage;
-    private AuctionsActivity.AuctionsUI auctionsUI;
+    private AuctionsByUserActivity.AuctionsByUserUI auctionsByUserUI;
 
-    public AuctionTask(AuctionsAdapter adapter, List<Auction> auctionList, int currentPage, int totalPage, AuctionsActivity.AuctionsUI auctionsUI) {
+    public AuctionsByUserTask(AuctionsByUserAdapter adapter, List<Auction> auctionList, int currentPage, int totalPage, AuctionsByUserActivity.AuctionsByUserUI auctionsByUserUI) {
         this.adapter = adapter;
         this.auctionList = auctionList;
         this.currentPage = currentPage;
         this.totalPage = totalPage;
-        this.auctionsUI = auctionsUI;
+        this.auctionsByUserUI = auctionsByUserUI;
     }
 
     protected Void doInBackground(String... args) {
         RestApi server = SharedFunctions.getRetrofit().create(RestApi.class);
         RequestBody desiredCount = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(args[0]));
         RequestBody dataOffset = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(args[1]));
-        RequestBody itemID = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(args[2]));
+        RequestBody token = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(args[2]));
 
-        Call<ResponseBody> req = server.getAuctionsByItem(desiredCount, dataOffset, itemID);
+        Call<ResponseBody> req = server.getAuctionsByUser(desiredCount, dataOffset, token);
 
         req.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -66,7 +66,7 @@ public class AuctionTask extends AsyncTask<String, Void, Void> {
 
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject c = items.getJSONObject(i);
-                                AuctionsActivity.setItemCount(AuctionsActivity.getItemCount() + 1);
+                                AuctionsByUserActivity.setItemCount(AuctionsByUserActivity.getItemCount() + 1);
 
                                 String auctionID = c.getString("auctionID");
                                 Timestamp auctionStart = SharedFunctions.parseDate(c.getString("auctionStart"));
@@ -123,33 +123,33 @@ public class AuctionTask extends AsyncTask<String, Void, Void> {
             adapter.removeLoading();
         }
         adapter.addItems(auctionList);
-        auctionsUI.setRefreshing(false);
+        auctionsByUserUI.setRefreshing(false);
     }
 
     private void executeSuccess() {
         if (auctionList.size() < totalPage) {
-            AuctionsActivity.setLastPage(true);
+            AuctionsByUserActivity.setLastPage(true);
         } else {
             adapter.addLoading();
         }
-        auctionsUI.updateUI();
+        auctionsByUserUI.updateUI();
     }
 
     private void executeEmpty() {
-        AuctionsActivity.setLastPage(true);
-        auctionsUI.updateUI();
+        AuctionsByUserActivity.setLastPage(true);
+        auctionsByUserUI.updateUI();
     }
 
     private void executeError() {
-        AuctionsActivity.setLastPage(true);
-        if (!AuctionsActivity.isConnectionError()) {
-            auctionsUI.showError();
-            AuctionsActivity.setIsConnectionError(true);
+        AuctionsByUserActivity.setLastPage(true);
+        if (!AuctionsByUserActivity.isConnectionError()) {
+            auctionsByUserUI.showError();
+            AuctionsByUserActivity.setIsConnectionError(true);
         }
     }
 
     private void endExecute() {
-        AuctionsActivity.setLoading(false);
+        AuctionsByUserActivity.setLoading(false);
     }
 
 }

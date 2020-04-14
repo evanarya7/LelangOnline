@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.defalt.lelangonline.R;
-import com.defalt.lelangonline.data.auctions.AuctionTask;
+import com.defalt.lelangonline.data.auctions.AuctionsByUserTask;
 import com.defalt.lelangonline.data.login.LoginRepository;
 import com.defalt.lelangonline.ui.recycle.PaginationListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -21,12 +21,11 @@ import java.util.ArrayList;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
-public class AuctionsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class AuctionsByUserActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private AuctionAdapter adapter;
+    private AuctionsByUserAdapter adapter;
     private ShimmerFrameLayout mShimmerViewContainer;
-    private AuctionsUI auctionsUI;
-    private String itemID;
+    private AuctionsByUserUI auctionsByUserUI;
     private int totalPage = 4;
     private int currentPage = PAGE_START;
     private static boolean isLastPage = false;
@@ -37,10 +36,7 @@ public class AuctionsActivity extends AppCompatActivity implements SwipeRefreshL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auctions_by_item);
-
-        Intent intent = getIntent();
-        itemID = intent.getStringExtra("TAG_EXTRA");
+        setContentView(R.layout.activity_auctions_by_user);
 
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.startShimmer();
@@ -54,10 +50,10 @@ public class AuctionsActivity extends AppCompatActivity implements SwipeRefreshL
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AuctionAdapter(this, new ArrayList<Auction>());
+        adapter = new AuctionsByUserAdapter(this, new ArrayList<Auction>());
         mRecyclerView.setAdapter(adapter);
 
-        auctionsUI = new AuctionsUI(mShimmerViewContainer, mRecyclerView, swipeRefresh, this);
+        auctionsByUserUI = new AuctionsByUserUI(mShimmerViewContainer, mRecyclerView, swipeRefresh, this);
 
         mRecyclerView.addOnScrollListener(new PaginationListener(layoutManager, totalPage) {
             @Override
@@ -88,7 +84,7 @@ public class AuctionsActivity extends AppCompatActivity implements SwipeRefreshL
         currentPage = PAGE_START;
         isLastPage = false;
         adapter.clear();
-        AuctionsActivity.setIsConnectionError(false);
+        AuctionsByUserActivity.setIsConnectionError(false);
         prepareData();
     }
 
@@ -101,7 +97,7 @@ public class AuctionsActivity extends AppCompatActivity implements SwipeRefreshL
         currentPage = PAGE_START;
         isLastPage = false;
         adapter.clear();
-        AuctionsActivity.setIsConnectionError(false);
+        AuctionsByUserActivity.setIsConnectionError(false);
         super.onStop();
     }
 
@@ -128,8 +124,8 @@ public class AuctionsActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     private void prepareData() {
-        new AuctionTask(adapter, new ArrayList<Auction>(), currentPage, totalPage, auctionsUI)
-                .execute(String.valueOf(totalPage), String.valueOf(itemCount), itemID);
+        new AuctionsByUserTask(adapter, new ArrayList<Auction>(), currentPage, totalPage, auctionsByUserUI)
+                .execute(String.valueOf(totalPage), String.valueOf(itemCount), LoginRepository.getLoggedInUser().getToken());
     }
 
     public static boolean isConnectionError() {
@@ -137,16 +133,16 @@ public class AuctionsActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     public static void setIsConnectionError(boolean isConnectionError) {
-        AuctionsActivity.isConnectionError = isConnectionError;
+        AuctionsByUserActivity.isConnectionError = isConnectionError;
     }
 
-    public static class AuctionsUI {
+    public static class AuctionsByUserUI {
         private final ShimmerFrameLayout mShimmerViewContainer;
         private final RecyclerView mRecyclerView;
         private final SwipeRefreshLayout swipeRefresh;
         private final Context CONTEXT;
 
-        AuctionsUI(ShimmerFrameLayout mShimmerViewContainer, RecyclerView mRecyclerView, SwipeRefreshLayout swipeRefresh, Context context) {
+        AuctionsByUserUI(ShimmerFrameLayout mShimmerViewContainer, RecyclerView mRecyclerView, SwipeRefreshLayout swipeRefresh, Context context) {
             this.mShimmerViewContainer = mShimmerViewContainer;
             this.swipeRefresh = swipeRefresh;
             this.mRecyclerView = mRecyclerView;

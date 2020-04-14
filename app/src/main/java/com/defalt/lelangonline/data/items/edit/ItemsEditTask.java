@@ -55,18 +55,22 @@ public class ItemsEditTask extends AsyncTask<RequestBody, Void, Void> {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    success = json.getInt("success");
-                    int imgSuccess = json.getInt("imgSuccess");
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
+                        int imgSuccess = json.getInt("imgSuccess");
 
-                    if (success == 0) {
-                        itemsEditUI.showConnErrorThenRetry();
-                    } else {
-                        if (success == 1 && imgSuccess == 0) {
-                            itemsEditUI.updateUIAfterUpload(0);
-                        } else if (success == 1 && (imgSuccess == 1 || imgSuccess == -1)) {
-                            itemsEditUI.updateUIAfterUpload(1);
+                        if (success == 0) {
+                            itemsEditUI.showConnErrorThenRetry();
+                        } else {
+                            if (success == 1 && imgSuccess == 0) {
+                                itemsEditUI.updateUIAfterUpload(0);
+                            } else if (success == 1 && (imgSuccess == 1 || imgSuccess == -1)) {
+                                itemsEditUI.updateUIAfterUpload(1);
+                            }
                         }
+                    } else {
+                        itemsEditUI.showConnErrorThenRetry();
                     }
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();

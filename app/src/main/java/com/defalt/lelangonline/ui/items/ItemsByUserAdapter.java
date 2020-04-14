@@ -1,5 +1,6 @@
 package com.defalt.lelangonline.ui.items;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,17 +25,17 @@ import com.defalt.lelangonline.ui.recycle.ProgressHolder;
 
 import java.util.List;
 
-public class ItemByUserAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class ItemsByUserAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
     private boolean isLoaderVisible = false;
 
-    private final Context mContext;
+    private final Activity mActivity;
     private List<Item> itemList;
 
-    ItemByUserAdapter(Context mContext, List<Item> itemList) {
-        this.mContext = mContext;
+    ItemsByUserAdapter(Activity mActivity, List<Item> itemList) {
+        this.mActivity = mActivity;
         this.itemList = itemList;
     }
 
@@ -44,7 +45,7 @@ public class ItemByUserAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new ItemViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_items_by_user_card, parent, false), mContext);
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_items_by_user_card, parent, false), mActivity);
             case VIEW_TYPE_LOADING:
                 return new ProgressHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleview_loading, parent, false));
@@ -107,7 +108,7 @@ public class ItemByUserAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         private TextView title, price;
         private ImageView thumbnail;
 
-        ItemViewHolder(View view, final Context mContext) {
+        ItemViewHolder(View view, final Activity mActivity) {
             super(view);
             title = view.findViewById(R.id.title);
             price = view.findViewById(R.id.price);
@@ -116,22 +117,22 @@ public class ItemByUserAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    String[] menus = {mContext.getResources().getString(R.string.action_update), mContext.getResources().getString(R.string.action_remove)};
+                    String[] menus = {mActivity.getResources().getString(R.string.action_update), mActivity.getResources().getString(R.string.action_remove)};
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(mActivity);
                     dialog.setTitle(title.getText())
                             .setItems(menus, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     switch (which) {
                                         case 0: {
-                                            Intent intent = new Intent(mContext, ItemsEditActivity.class);
+                                            Intent intent = new Intent(mActivity, ItemsEditActivity.class);
                                             intent.putExtra("TAG_EXTRA", thisItem.getItemID());
-                                            mContext.startActivity(intent);
+                                            mActivity.startActivity(intent);
                                             break;
                                         }
                                         case 1: {
-                                            AlertDialog.Builder deleteDialog = new AlertDialog.Builder(mContext);
+                                            AlertDialog.Builder deleteDialog = new AlertDialog.Builder(mActivity);
                                             deleteDialog.setTitle(R.string.alert_remove_confirm_title)
                                                     .setMessage(R.string.alert_remove_confirm_desc)
                                                     .setIcon(R.drawable.ic_warning_black_24dp)
@@ -139,7 +140,7 @@ public class ItemByUserAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                                                     .setPositiveButton(R.string.alert_agree, new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            new ItemRemoveTask(new ItemRemoveTask.RemoveUI(mContext)).execute(thisItem.getItemID(), LoginRepository.getLoggedInUser().getToken());
+                                                            new ItemRemoveTask(new ItemRemoveTask.RemoveUI(mActivity)).execute(thisItem.getItemID(), LoginRepository.getLoggedInUser().getToken());
                                                         }
                                                     }).show();
                                             break;
@@ -165,9 +166,9 @@ public class ItemByUserAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             thumbnail.setImageDrawable(null);
             if (!thisItem.getItemImg().equals("null")) {
                 String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/items/";
-                Glide.with(mContext).load(IMAGE_URL + thisItem.getItemImg()).into(thumbnail);
+                Glide.with(mActivity).load(IMAGE_URL + thisItem.getItemImg()).into(thumbnail);
             } else {
-                Glide.with(mContext).load(R.drawable.placeholder_image).into(thumbnail);
+                Glide.with(mActivity).load(R.drawable.placeholder_image).into(thumbnail);
             }
         }
     }

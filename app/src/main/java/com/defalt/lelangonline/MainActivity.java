@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.defalt.lelangonline.data.login.LoginRepository;
 import com.defalt.lelangonline.ui.account.AccountFragment;
+import com.defalt.lelangonline.ui.auctions.AuctionsByUserActivity;
 import com.defalt.lelangonline.ui.auctions.add.AuctionsAddActivity;
 import com.defalt.lelangonline.ui.home.HomeFragment;
 import com.defalt.lelangonline.ui.items.ItemsByUserActivity;
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void startAuctionByUserActivity(View view) {
+        Intent intent = new Intent(this, AuctionsByUserActivity.class);
+        startActivity(intent);
     }
 
     public void startLogout(View view) {

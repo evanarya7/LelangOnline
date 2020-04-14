@@ -8,7 +8,7 @@ import com.defalt.lelangonline.MainActivity;
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.items.Item;
-import com.defalt.lelangonline.ui.items.ItemAdapter;
+import com.defalt.lelangonline.ui.items.ItemsAdapter;
 import com.defalt.lelangonline.ui.items.ItemsFragment;
 
 import org.json.JSONArray;
@@ -31,13 +31,13 @@ import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 public class ItemsTask extends AsyncTask<Integer, Void, Void> {
     private int success;
 
-    private ItemAdapter adapter;
+    private ItemsAdapter adapter;
     private List<Item> itemList;
     private int currentPage;
     private int totalPage;
     private ItemsFragment.ItemsUI itemsUI;
 
-    public ItemsTask(ItemAdapter adapter, List<Item> itemList, int currentPage, int totalPage, ItemsFragment.ItemsUI itemsUI) {
+    public ItemsTask(ItemsAdapter adapter, List<Item> itemList, int currentPage, int totalPage, ItemsFragment.ItemsUI itemsUI) {
         this.adapter = adapter;
         this.itemList = itemList;
         this.currentPage = currentPage;
@@ -56,37 +56,43 @@ public class ItemsTask extends AsyncTask<Integer, Void, Void> {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    success = json.getInt("success");
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
 
-                    if (success == 1) {
-                        JSONArray items = json.getJSONArray("items");
+                        if (success == 1) {
+                            JSONArray items = json.getJSONArray("items");
 
-                        for (int i = 0; i < items.length(); i++) {
-                            JSONObject c = items.getJSONObject(i);
-                            ItemsFragment.setItemCount(ItemsFragment.getItemCount() + 1);
+                            for (int i = 0; i < items.length(); i++) {
+                                JSONObject c = items.getJSONObject(i);
+                                ItemsFragment.setItemCount(ItemsFragment.getItemCount() + 1);
 
-                            String itemID = c.getString("itemID");
-                            String itemName = c.getString("itemName");
-                            String itemCat = c.getString("itemCat");
-                            Double itemValue = c.getDouble("itemValue");
-                            String itemImg = c.getString("itemImg");
-                            int favCount = c.getInt("favCount");
+                                String itemID = c.getString("itemID");
+                                String itemName = c.getString("itemName");
+                                String itemCat = c.getString("itemCat");
+                                Double itemValue = c.getDouble("itemValue");
+                                String itemImg = c.getString("itemImg");
+                                int favCount = c.getInt("favCount");
 
-                            Item im = new Item(itemID, itemName, itemCat, itemValue, itemImg, favCount);
-                            itemList.add(im);
+                                Item im = new Item(itemID, itemName, itemCat, itemValue, itemImg, favCount);
+                                itemList.add(im);
+                            }
                         }
-                    }
 
-                    postExecute();
-                    if (success == 1) {
-                        executeSuccess();
-                    } else if (success == -1) {
-                        executeEmpty();
-                    } else if (success == 0) {
+                        postExecute();
+                        if (success == 1) {
+                            executeSuccess();
+                        } else if (success == -1) {
+                            executeEmpty();
+                        } else if (success == 0) {
+                            executeError();
+                        }
+                        endExecute();
+                    } else {
+                        postExecute();
                         executeError();
+                        endExecute();
                     }
-                    endExecute();
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
 

@@ -22,7 +22,7 @@ import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
 public class ItemsByUserActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private ItemByUserAdapter adapter;
+    private ItemsByUserAdapter adapter;
     private ShimmerFrameLayout mShimmerViewContainer;
     private ItemsByUserUI itemsByUserUI;
     private int totalPage = 6;
@@ -49,7 +49,7 @@ public class ItemsByUserActivity extends AppCompatActivity implements SwipeRefre
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ItemByUserAdapter(this, new ArrayList<Item>());
+        adapter = new ItemsByUserAdapter(this, new ArrayList<Item>());
         mRecyclerView.setAdapter(adapter);
 
         itemsByUserUI = new ItemsByUserUI(mShimmerViewContainer, mRecyclerView, swipeRefresh, this);

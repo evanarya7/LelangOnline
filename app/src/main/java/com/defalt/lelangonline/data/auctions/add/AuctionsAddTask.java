@@ -43,12 +43,16 @@ public class AuctionsAddTask extends AsyncTask<String, Void, Void> {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    JSONObject json = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    success = json.getInt("success");
+                    if (response.body() != null) {
+                        JSONObject json = new JSONObject(response.body().string());
+                        success = json.getInt("success");
 
-                    if (success == 1) {
-                        auctionsAddUI.updateUIAfterUpload();
-                    } else if (success == 0) {
+                        if (success == 1) {
+                            auctionsAddUI.updateUIAfterUpload();
+                        } else if (success == 0) {
+                            auctionsAddUI.showConnErrorThenRetry();
+                        }
+                    } else {
                         auctionsAddUI.showConnErrorThenRetry();
                     }
                 } catch (JSONException | IOException e) {

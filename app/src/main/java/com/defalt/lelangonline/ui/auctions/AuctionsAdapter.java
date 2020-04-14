@@ -7,13 +7,11 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.defalt.lelangonline.R;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.details.DetailsActivity;
@@ -24,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class AuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class AuctionsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
@@ -33,7 +31,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private final Context mContext;
     private List<Auction> auctionList;
 
-    AuctionAdapter(Context mContext, List<Auction> auctionList) {
+    AuctionsAdapter(Context mContext, List<Auction> auctionList) {
         this.mContext = mContext;
         this.auctionList = auctionList;
     }
@@ -105,7 +103,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     class AuctionViewHolder extends BaseViewHolder {
         private Auction thisAuction;
         private TextView title, priceInit, priceStart, timerText, timer;
-        private ImageView thumbnail;
         private CountDownTimer countDownTimer;
 
         AuctionViewHolder(View view, final Context mContext) {
@@ -115,7 +112,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             priceStart = view.findViewById(R.id.price);
             timerText = view.findViewById(R.id.timerText);
             timer = view.findViewById(R.id.timer);
-            thumbnail = view.findViewById(R.id.thumbnail);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,14 +137,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             priceInit.setText(SharedFunctions.formatRupiah(thisAuction.getItemValue()));
             priceInit.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             priceStart.setText(SharedFunctions.formatRupiah(thisAuction.getPriceStart()));
-
-            thumbnail.setImageDrawable(null);
-            if (!thisAuction.getItemImg().equals("null")) {
-                String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/items/";
-                Glide.with(mContext).load(IMAGE_URL + thisAuction.getItemImg()).into(thumbnail);
-            } else {
-                Glide.with(mContext).load(R.drawable.placeholder_image).into(thumbnail);
-            }
 
             if (countDownTimer != null) {
                 countDownTimer.cancel();
