@@ -18,6 +18,7 @@ import com.defalt.lelangonline.ui.recycle.PaginationListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
@@ -25,6 +26,7 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private BidAdapter adapter;
     private ShimmerFrameLayout mShimmerViewContainer;
+    private RecyclerView mRecyclerView;
     private HistoryUI historyUI;
     private String auctionID;
     private int totalPage = 10;
@@ -41,10 +43,9 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mShimmerViewContainer = root.findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.startShimmer();
 
-        SwipeRefreshLayout swipeRefresh = root.findViewById(R.id.swipeRefresh);
-        swipeRefresh.setOnRefreshListener(this);
+        SwipeRefreshLayout swipeRefresh = Objects.requireNonNull(getActivity()).findViewById(R.id.swipeRefresh);
 
-        RecyclerView mRecyclerView = root.findViewById(R.id.recyclerView);
+        mRecyclerView = root.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -81,6 +82,7 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void onRefresh() {
+        mRecyclerView.setVisibility(View.GONE);
         mShimmerViewContainer.setVisibility(View.VISIBLE);
         mShimmerViewContainer.startShimmer();
 
@@ -113,20 +115,25 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     public static class HistoryUI {
-        private final ShimmerFrameLayout mShimmerViewContainer;
-        private final RecyclerView mRecyclerView;
-        private final SwipeRefreshLayout swipeRefresh;
-        private final Context CONTEXT;
+        private ShimmerFrameLayout mShimmerViewContainer;
+        private RecyclerView mRecyclerView;
+        private SwipeRefreshLayout swipeRefresh;
+        private Context mContext;
 
-        HistoryUI(ShimmerFrameLayout mShimmerViewContainer, RecyclerView mRecyclerView, SwipeRefreshLayout swipeRefresh, Context context) {
+        HistoryUI(ShimmerFrameLayout mShimmerViewContainer, RecyclerView mRecyclerView, SwipeRefreshLayout swipeRefresh, Context mContext) {
             this.mShimmerViewContainer = mShimmerViewContainer;
             this.mRecyclerView = mRecyclerView;
             this.swipeRefresh = swipeRefresh;
-            this.CONTEXT = context;
+            this.mContext = mContext;
         }
 
         public void setRefreshing(boolean refreshingState) {
-            swipeRefresh.setRefreshing(refreshingState);
+            if (!refreshingState) {
+                DetailsActivity.setIsHistoryLoading(false);
+                if (!DetailsActivity.isIsDetailsLoading()) {
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
         }
 
         public void updateUI() {
@@ -136,11 +143,11 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
         }
 
         public void showError() {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(CONTEXT);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
             alertDialog.setTitle(R.string.alert_conn_title);
             alertDialog.setMessage(R.string.alert_conn_desc);
             alertDialog.setIcon(R.drawable.ic_error_black_24dp);
-            alertDialog.setPositiveButton(CONTEXT.getString(R.string.alert_agree), null);
+            alertDialog.setPositiveButton(mContext.getString(R.string.alert_agree), null);
             alertDialog.show();
         }
     }

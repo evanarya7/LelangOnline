@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="96dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mp_m"
+        app:cardCornerRadius="@dimen/card_cornerRadius"
+        app:cardElevation="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/mp_m"
+            android:paddingBottom="@dimen/mp_m">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/sheet_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/mp_m"
+                    android:layout_marginBottom="@dimen/mp_xs"
+                    app:srcCompat="@drawable/ic_expand_less_black_24dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auction_bid_amount_title"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lastBidAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/grayDarkTextColor"
+                        android:textSize="@dimen/material_text_title" />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <me.abhinay.input.CurrencyEditText
+                android:id="@+id/bidAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/mp_m"
+                android:drawableEnd="@drawable/ic_lock_black_24dp"
+                android:enabled="false"
+                android:hint="@string/auction_bid_amount_hint_locked"
+                android:inputType="number"
+                android:maxLength="15"
+                android:textSize="@dimen/material_text_subhead" />
+
+            <Button
+                android:id="@+id/bidButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/action_bid" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 
 import com.defalt.lelangonline.data.RestApi;
+import com.defalt.lelangonline.data.login.LoginRepository;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.auctions.add.AuctionsAddActivity;
 
@@ -12,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -36,8 +36,9 @@ public class AuctionsAddTask extends AsyncTask<String, Void, Void> {
         RequestBody limitPrice = RequestBody.create(MediaType.parse("text/plain"), args[2]);
         RequestBody auctionStart = RequestBody.create(MediaType.parse("text/plain"), args[3]);
         RequestBody auctionEnd = RequestBody.create(MediaType.parse("text/plain"), args[4]);
+        RequestBody token = RequestBody.create(MediaType.parse("text/plain"), LoginRepository.getLoggedInUser().getToken());
 
-        Call<ResponseBody> req = server.postAuction(itemID, initPrice, limitPrice, auctionStart, auctionEnd);
+        Call<ResponseBody> req = server.postAuction(itemID, initPrice, limitPrice, auctionStart, auctionEnd, token);
 
         req.enqueue(new Callback<ResponseBody>() {
             @Override

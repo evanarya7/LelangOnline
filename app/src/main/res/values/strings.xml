@@ -5,6 +5,7 @@
     <string name="action_register_short">Daftar</string>
     <string name="action_sign_in">Masuk</string>
     <string name="action_sign_out">Keluar</string>
+    <string name="action_bid">Pasang</string>
     <string name="action_post">Simpan</string>
     <string name="action_update">Ubah</string>
     <string name="action_remove">Hapus</string>
@@ -39,7 +40,8 @@
     <string name="alert_post_success_title">Upload Selesai</string>
     <string name="alert_post_success_item_0_desc">Barang baru anda telah disimpan. (Error Gambar)</string>
     <string name="alert_post_success_item_1_desc">Barang baru anda telah disimpan.</string>
-    <string name="alert_post_success_auction_desc">Jadwal lelang untuk barang anda telah dibuat.</string>
+    <string name="alert_post_success_auction_desc">Jadwal lelang untuk barang anda telah disimpan.</string>
+    <string name="alert_post_success_bid_desc">Penawaran anda telah disimpan.</string>
     <string name="alert_update_success_title">Pembaharuan Berhasil</string>
     <string name="alert_update_success_item_0_desc">Perubahan terhadap barang anda telah disimpan. (Error Gambar)</string>
     <string name="alert_update_success_item_1_desc">Perubahan terhadap barang anda telah disimpan.</string>
@@ -49,6 +51,10 @@
     <string name="alert_remove_success_desc">Barang anda telah dihapus dari daftar barang.</string>
     <string name="alert_get_item_names_title">Tidak Ada Barang</string>
     <string name="alert_get_item_names_desc">Anda tidak memiliki barang untuk dilelang.</string>
+    <string name="alert_bid_invalid_title">Penawaran Tidak Valid</string>
+    <string name="alert_bid_invalid_0_desc">Jumlah penawaran Anda harus lebih besar atau sama dengan harga pembukaan.</string>
+    <string name="alert_bid_invalid_1_desc">Jumlah penawaran Anda harus lebih besar dari penawaran terakhir.</string>
+    <string name="alert_bid_invalid_2_desc">Jumlah penawaran Anda harus lebih kecil atau sama dengan harga batas.</string>
     <string name="card_auction_stop">Lelang telah berakhir</string>
     <string name="card_auction_end">Lelang berakhir dalam:</string>
     <string name="card_auction_start">Lelang dimulai dalam:</string>
@@ -90,6 +96,10 @@
     <string name="item_post_val_hint">Masukkan nilai barang</string>
     <string name="item_post_img_title">Foto Barang</string>
     <string name="item_post_img_hint">Tambahkan foto barang</string>
+    <string name="auction_bid_amount_title">Penawaran Anda</string>
+    <string name="auction_bid_amount_hint">Masukkan jumlah penawaran anda</string>
+    <string name="auction_bid_amount_hint_locked">Lelang belum dimulai atau telah berakhir</string>
+    <string name="auction_bid_amount_hint_owner">Anda tidak dapat melakukan penawaran</string>
     <string name="auction_post_name_title">Nama Barang</string>
     <string name="auction_post_name_hint">Pilih Barang Anda</string>
     <string name="auction_post_value_title">Nilai Barang</string>

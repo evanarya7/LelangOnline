@@ -8,24 +8,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.defalt.lelangonline.R;
-import com.defalt.lelangonline.data.details.DetailsTask;
+import com.defalt.lelangonline.data.details.DetailsItemTask;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class DetailsFragment extends Fragment {
+public class DetailsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private ShimmerFrameLayout mShimmerViewContainer;
-    private ScrollView mScrollView;
+    private NestedScrollView mNestedScrollView;
+    private DetailsItemUI detailsItemUI;
     private String auctionID;
     private ImageView mThumbnail;
     private TextView mBidCount;
@@ -43,7 +47,9 @@ public class DetailsFragment extends Fragment {
         mShimmerViewContainer = root.findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.startShimmer();
 
-        mScrollView = root.findViewById(R.id.container);
+        SwipeRefreshLayout swipeRefresh = Objects.requireNonNull(getActivity()).findViewById(R.id.swipeRefresh);
+
+        mNestedScrollView = root.findViewById(R.id.container);
         mThumbnail = root.findViewById(R.id.thumbnail);
         mBidCount = root.findViewById(R.id.bidCount);
         mTimerText = root.findViewById(R.id.timerText);
@@ -52,22 +58,33 @@ public class DetailsFragment extends Fragment {
         mItemPriceInit = root.findViewById(R.id.itemPrice);
         mItemPriceStart = root.findViewById(R.id.itemStart);
         mItemDesc = root.findViewById(R.id.itemDescription);
-        auctionID = getArguments() != null ? getArguments().getString("TAG_AUID") : null;
 
-        prepareData();
+        detailsItemUI = new DetailsItemUI(mShimmerViewContainer, mNestedScrollView, swipeRefresh,
+                mThumbnail, mBidCount, mTimerText, mTimer, mItemName, mItemPriceInit, mItemPriceStart, mItemDesc, getActivity());
+        auctionID = getArguments() != null ? getArguments().getString("TAG_AUID") : null;
+        prepareDetails();
 
         return root;
     }
 
-    private void prepareData() {
-        new DetailsTask(new DetailsUI(mShimmerViewContainer, mScrollView,
-                mThumbnail, mBidCount, mTimerText, mTimer, mItemName, mItemPriceInit, mItemPriceStart, mItemDesc, getActivity()))
-                .execute(auctionID);
+    @Override
+    public void onRefresh() {
+        mNestedScrollView.setVisibility(View.GONE);
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmer();
+
+        DetailsActivity.setIsConnectionError(false);
+        prepareDetails();
     }
 
-    public static class DetailsUI {
+    private void prepareDetails() {
+        new DetailsItemTask(detailsItemUI).execute(auctionID);
+    }
+
+    public static class DetailsItemUI {
         private ShimmerFrameLayout mShimmerViewContainer;
-        private ScrollView mScrollView;
+        private NestedScrollView mNestedScrollView;
+        private SwipeRefreshLayout swipeRefresh;
         private ImageView mThumbnail;
         private TextView mBidCount;
         private TextView mTimerText;
@@ -78,11 +95,12 @@ public class DetailsFragment extends Fragment {
         private TextView mItemDesc;
         private Context mContext;
 
-        DetailsUI(ShimmerFrameLayout mShimmerViewContainer, ScrollView mScrollView,
-                  ImageView mThumbnail, TextView mBidCount, TextView mTimerText, TextView mTimer, TextView mItemName,
-                  TextView mItemPriceInit, TextView mItemPriceStart, TextView mItemDesc, Context mContext) {
+        DetailsItemUI(ShimmerFrameLayout mShimmerViewContainer, NestedScrollView mNestedScrollView, SwipeRefreshLayout swipeRefresh,
+                      ImageView mThumbnail, TextView mBidCount, TextView mTimerText, TextView mTimer, TextView mItemName,
+                      TextView mItemPriceInit, TextView mItemPriceStart, TextView mItemDesc, Context mContext) {
             this.mShimmerViewContainer = mShimmerViewContainer;
-            this.mScrollView = mScrollView;
+            this.mNestedScrollView = mNestedScrollView;
+            this.swipeRefresh = swipeRefresh;
             this.mThumbnail = mThumbnail;
             this.mBidCount = mBidCount;
             this.mTimerText = mTimerText;
@@ -94,6 +112,15 @@ public class DetailsFragment extends Fragment {
             this.mContext = mContext;
         }
 
+        public void setRefreshing(boolean refreshingState) {
+            if (!refreshingState) {
+                DetailsActivity.setIsDetailsLoading(false);
+                if (!DetailsActivity.isIsHistoryLoading()) {
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+        }
+
         public void updateUI(Details details) {
             mBidCount.setText(String.valueOf(details.getBidCount()));
             mItemName.setText(details.getItemName());
@@ -102,7 +129,6 @@ public class DetailsFragment extends Fragment {
             mItemPriceStart.setText(SharedFunctions.formatRupiah(details.getItemStartPrice()));
             mItemDesc.setText(details.getItemDesc());
 
-            mThumbnail.setImageDrawable(null);
             if (!details.getItemImg().equals("null")) {
                 String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/items/";
                 Glide.with(mContext).load(IMAGE_URL + details.getItemImg()).into(mThumbnail);
@@ -174,7 +200,16 @@ public class DetailsFragment extends Fragment {
 
             mShimmerViewContainer.stopShimmer();
             mShimmerViewContainer.setVisibility(View.GONE);
-            mScrollView.setVisibility(View.VISIBLE);
+            mNestedScrollView.setVisibility(View.VISIBLE);
+        }
+
+        public void showError() {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+            alertDialog.setTitle(R.string.alert_conn_title);
+            alertDialog.setMessage(R.string.alert_conn_desc);
+            alertDialog.setIcon(R.drawable.ic_error_black_24dp);
+            alertDialog.setPositiveButton(mContext.getString(R.string.alert_agree), null);
+            alertDialog.show();
         }
     }
 }

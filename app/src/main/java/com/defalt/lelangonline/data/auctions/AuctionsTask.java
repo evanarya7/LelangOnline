@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.auctions.Auction;
-import com.defalt.lelangonline.ui.auctions.AuctionsAdapter;
 import com.defalt.lelangonline.ui.auctions.AuctionsActivity;
+import com.defalt.lelangonline.ui.auctions.AuctionsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

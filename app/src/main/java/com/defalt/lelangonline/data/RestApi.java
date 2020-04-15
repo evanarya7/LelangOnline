@@ -26,15 +26,27 @@ public interface RestApi {
     @Multipart
     @POST("/dev/mit/1317003/get_details.php")
     Call<ResponseBody> getDetails(
+            @Part("auctionID") RequestBody auctionID,
+            @Part("token") RequestBody token);
+
+    @Multipart
+    @POST("/dev/mit/1317003/get_details_item.php")
+    Call<ResponseBody> getDetailsItem(
             @Part("auctionID") RequestBody auctionID);
 
-    // DETAILS ACTIVITY
     @Multipart
     @POST("/dev/mit/1317003/get_details_history.php")
     Call<ResponseBody> getDetailsHistory(
             @Part("desiredCount") RequestBody desiredCount,
             @Part("dataOffset") RequestBody dataOffset,
             @Part("auctionID") RequestBody auctionID);
+
+    @Multipart
+    @POST("/dev/mit/1317003/create_bid.php")
+    Call<ResponseBody> postBid(
+            @Part("auctionID") RequestBody auctionID,
+            @Part("bidAmount") RequestBody bidAmount,
+            @Part("token") RequestBody token);
 
     // ITEMS FRAGMENT
     @Multipart
@@ -60,7 +72,7 @@ public interface RestApi {
             @Part("itemCat") RequestBody itemCat,
             @Part("itemVal") RequestBody itemVal,
             @Part("isImageEmpty") RequestBody isImageEmpty,
-            @Part("userToken") RequestBody userToken);
+            @Part("token") RequestBody token);
 
     @Multipart
     @POST("/dev/mit/1317003/create_item.php")
@@ -70,7 +82,7 @@ public interface RestApi {
             @Part("itemCat") RequestBody itemCat,
             @Part("itemVal") RequestBody itemVal,
             @Part("isImageEmpty") RequestBody isImageEmpty,
-            @Part("userToken") RequestBody userToken,
+            @Part("token") RequestBody token,
             @Part MultipartBody.Part image);
 
     // ITEM BY USER ACTIVITY
@@ -85,7 +97,7 @@ public interface RestApi {
     @POST("/dev/mit/1317003/remove_item.php")
     Call<ResponseBody> removeItem(
             @Part("itemID") RequestBody itemID,
-            @Part("userToken") RequestBody token);
+            @Part("token") RequestBody token);
 
     // ITEM EDIT ACTIVITY
     @Multipart
@@ -103,7 +115,7 @@ public interface RestApi {
             @Part("itemVal") RequestBody itemVal,
             @Part("isImageEmpty") RequestBody isImageEmpty,
             @Part("isImageChange") RequestBody isImageChange,
-            @Part("userToken") RequestBody userToken,
+            @Part("token") RequestBody token,
             @Part MultipartBody.Part image);
 
     @Multipart
@@ -116,7 +128,7 @@ public interface RestApi {
             @Part("itemVal") RequestBody itemVal,
             @Part("isImageEmpty") RequestBody isImageEmpty,
             @Part("isImageChange") RequestBody isImageChange,
-            @Part("userToken") RequestBody userToken);
+            @Part("token") RequestBody token);
 
     // ADD AUCTION ACTIVITY
     @Multipart
@@ -131,7 +143,8 @@ public interface RestApi {
             @Part("initPrice") RequestBody initPrice,
             @Part("limitPrice") RequestBody limitPrice,
             @Part("auctionStart") RequestBody auctionStart,
-            @Part("auctionEnd") RequestBody auctionEnd);
+            @Part("auctionEnd") RequestBody auctionEnd,
+            @Part("token") RequestBody token);
 
     // AUCTION BY USER ACTIVITY
     @Multipart

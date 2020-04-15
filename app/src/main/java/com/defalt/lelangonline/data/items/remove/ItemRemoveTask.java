@@ -1,7 +1,6 @@
 package com.defalt.lelangonline.data.items.remove;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 
@@ -16,7 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

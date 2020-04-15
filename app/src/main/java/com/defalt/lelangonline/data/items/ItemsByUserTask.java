@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.items.Item;
-import com.defalt.lelangonline.ui.items.ItemsByUserAdapter;
 import com.defalt.lelangonline.ui.items.ItemsByUserActivity;
+import com.defalt.lelangonline.ui.items.ItemsByUserAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

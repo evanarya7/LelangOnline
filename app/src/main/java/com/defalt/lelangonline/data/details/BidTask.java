@@ -1,4 +1,4 @@
-package com.defalt.lelangonline.data.items.edit;
+package com.defalt.lelangonline.data.details;
 
 import android.os.AsyncTask;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
-import com.defalt.lelangonline.ui.items.edit.ItemsEditActivity;
+import com.defalt.lelangonline.ui.details.DetailsActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,19 +20,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ItemByIDTask extends AsyncTask<String, Void, Void> {
+public class BidTask extends AsyncTask<String, Void, Void> {
     private int success;
-    private ItemsEditActivity.ItemsEditUI itemsEditUI;
+    private DetailsActivity.DetailsUI detailsUI;
 
-    public ItemByIDTask(ItemsEditActivity.ItemsEditUI itemsEditUI) {
-        this.itemsEditUI = itemsEditUI;
+    public BidTask(DetailsActivity.DetailsUI detailsUI) {
+        this.detailsUI = detailsUI;
     }
 
     protected Void doInBackground(String... args) {
         RestApi server = SharedFunctions.getRetrofit().create(RestApi.class);
-        RequestBody itemID = RequestBody.create(MediaType.parse("text/plain"), args[0]);
+        RequestBody auctionID = RequestBody.create(MediaType.parse("text/plain"), args[0]);
+        RequestBody bidAmount = RequestBody.create(MediaType.parse("text/plain"), args[1]);
+        RequestBody token = RequestBody.create(MediaType.parse("text/plain"), args[2]);
 
-        Call<ResponseBody> req = server.getItemByID(itemID);
+        Call<ResponseBody> req = server.postBid(auctionID, bidAmount, token);
 
         req.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -43,23 +45,23 @@ public class ItemByIDTask extends AsyncTask<String, Void, Void> {
                         success = json.getInt("success");
 
                         if (success == 1) {
-                            itemsEditUI.updateEditText(json.getString("itemName"), json.getString("itemCat"), json.getDouble("itemValue"), json.getString("itemDesc"), json.getString("itemImg"));
-                        } else {
-                            itemsEditUI.showConnError();
+                            detailsUI.showSuccess();
                         }
                     } else {
-                        itemsEditUI.showConnError();
+                        detailsUI.showError();
                     }
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
-                    itemsEditUI.showConnError();
+
+                    detailsUI.showError();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t){
                 t.printStackTrace();
-                itemsEditUI.showConnError();
+
+                detailsUI.showError();
             }
         });
 
