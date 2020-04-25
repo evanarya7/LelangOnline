@@ -1,5 +1,6 @@
 package com.defalt.lelangonline.ui.details;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.defalt.lelangonline.R;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.defalt.lelangonline.ui.recycle.BaseViewHolder;
@@ -21,11 +23,13 @@ public class BidAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
     private boolean isLoaderVisible = false;
+    private Context mContext;
 
     private List<Bid> bidList;
 
-    BidAdapter(List<Bid> bidList) {
+    BidAdapter(List<Bid> bidList, Context mContext) {
         this.bidList = bidList;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -34,7 +38,7 @@ public class BidAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
                 return new BidViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_details_history_card, parent, false));
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_details_history_card, parent, false), mContext);
             case VIEW_TYPE_LOADING:
                 return new ProgressHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleview_loading, parent, false));
@@ -95,13 +99,15 @@ public class BidAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     class BidViewHolder extends BaseViewHolder {
         private TextView time, price, username;
         private ImageView thumbnail;
+        private Context mContext;
 
-        BidViewHolder(View view) {
+        BidViewHolder(View view, Context mContext) {
             super(view);
             time = view.findViewById(R.id.time);
             price = view.findViewById(R.id.price);
             username = view.findViewById(R.id.username);
             thumbnail = view.findViewById(R.id.thumbnail);
+            this.mContext = mContext;
         }
 
         protected void clear() { }
@@ -113,6 +119,14 @@ public class BidAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             time.setText(thisBid.getBidTime().toString());
             price.setText(SharedFunctions.formatRupiah(thisBid.getBidPrice()));
             username.setText(thisBid.getUserName());
+
+            thumbnail.setImageDrawable(null);
+            if (!thisBid.getUserImage().equals("null")) {
+                String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/profile/";
+                Glide.with(mContext).load(IMAGE_URL + thisBid.getUserImage()).into(thumbnail);
+            } else {
+                Glide.with(mContext).load(R.drawable.placeholder_image).into(thumbnail);
+            }
         }
     }
 

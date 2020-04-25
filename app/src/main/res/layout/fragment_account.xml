@@ -7,14 +7,14 @@
 
     <include
         layout="@layout/fragment_account_placeholder"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/container_padding_bottom"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -26,47 +26,56 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/background_light"
-                    android:padding="@dimen/mp_m">
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:onClick="startEditProfileActivity">
 
-                    <ImageView
-                        android:id="@+id/profile_thumbnail"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:contentDescription="Profile Picture"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/placeholder_image" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/mp_sm0"
-                        android:layout_toEndOf="@id/profile_thumbnail"
-                        android:orientation="vertical">
+                        android:background="@android:color/background_light"
+                        android:padding="@dimen/mp_m">
 
-                        <TextView
-                            android:id="@+id/profile_name"
+                        <ImageView
+                            android:id="@+id/profile_thumbnail"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:contentDescription="Profile Picture"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/placeholder_image" />
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/grayDarkTextColor"
-                            android:textSize="@dimen/material_text_title"
-                            android:textStyle="bold" />
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/mp_sm0"
+                            android:layout_toEndOf="@id/profile_thumbnail"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/profile_active"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Kelengkapan profil 90%"
-                            android:textColor="@color/grayLightTextColor"
-                            android:textSize="@dimen/material_text_body1" />
+                            <TextView
+                                android:id="@+id/profile_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/grayDarkTextColor"
+                                android:textSize="@dimen/material_text_title"
+                                android:textStyle="bold" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/profile_active"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/grayLightTextColor"
+                                android:textSize="@dimen/material_text_body1" />
 
-                </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <View
                     android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.defalt.lelangonline.data.login.LoginRepository;
 import com.defalt.lelangonline.ui.account.AccountFragment;
+import com.defalt.lelangonline.ui.account.edit.ProfileEditActivity;
 import com.defalt.lelangonline.ui.auctions.AuctionsByUserActivity;
 import com.defalt.lelangonline.ui.auctions.add.AuctionsAddActivity;
 import com.defalt.lelangonline.ui.home.HomeFragment;
@@ -85,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
         }
         return false;
+    }
+
+    public void startEditProfileActivity(View view) {
+        Intent intent = new Intent(this, ProfileEditActivity.class);
+        startActivity(intent);
     }
 
     public void startAddItemActivity(View view) {

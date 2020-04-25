@@ -51,7 +51,7 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        adapter = new BidAdapter(new ArrayList<Bid>());
+        adapter = new BidAdapter(new ArrayList<Bid>(), getActivity());
         mRecyclerView.setAdapter(adapter);
 
         historyUI = new HistoryUI(mShimmerViewContainer, mRecyclerView, swipeRefresh, getContext());

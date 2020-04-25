@@ -55,6 +55,11 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.logout.LogoutActivity" />
         <activity
+            android:name=".ui.account.edit.ProfileEditActivity"
+            android:label="@string/account_edit_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.items.add.ItemsAddActivity"
             android:label="@string/account_item_post_title"
             android:screenOrientation="portrait"

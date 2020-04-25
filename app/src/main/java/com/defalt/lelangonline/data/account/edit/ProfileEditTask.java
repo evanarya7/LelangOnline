@@ -1,4 +1,4 @@
-package com.defalt.lelangonline.data.items.edit;
+package com.defalt.lelangonline.data.account.edit;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
+import com.defalt.lelangonline.ui.account.edit.ProfileEditActivity;
 import com.defalt.lelangonline.ui.items.edit.ItemsEditActivity;
 
 import org.json.JSONException;
@@ -24,18 +25,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ItemsEditTask extends AsyncTask<RequestBody, Void, Void> {
+public class ProfileEditTask extends AsyncTask<RequestBody, Void, Void> {
     private int success;
     private boolean isImageEmpty;
     private Uri mCropImageUri;
     private boolean isImageChange;
-    private ItemsEditActivity.ItemsEditUI itemsEditUI;
+    private ProfileEditActivity.ProfileEditUI profileEditUI;
 
-    public ItemsEditTask(boolean isImageEmpty, Uri mCropImageUri, boolean isImageChange, ItemsEditActivity.ItemsEditUI itemsEditUI) {
+    public ProfileEditTask(boolean isImageEmpty, Uri mCropImageUri, boolean isImageChange, ProfileEditActivity.ProfileEditUI profileEditUI) {
         this.isImageEmpty = isImageEmpty;
         this.mCropImageUri = mCropImageUri;
         this.isImageChange = isImageChange;
-        this.itemsEditUI = itemsEditUI;
+        this.profileEditUI = profileEditUI;
     }
 
     protected final Void doInBackground(RequestBody... args) {
@@ -44,11 +45,11 @@ public class ItemsEditTask extends AsyncTask<RequestBody, Void, Void> {
         if (this.isImageChange && !this.isImageEmpty) {
             File file = new File(Objects.requireNonNull(mCropImageUri.getPath()));
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part itemImage = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
+            MultipartBody.Part profileImage = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
 
-            req = server.updateItemWithImage(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], itemImage);
+            req = server.updateUserWithImage(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], profileImage);
         } else {
-            req = server.updateItemNoImage(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+            req = server.updateUserNoImage(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
         }
 
         req.enqueue(new Callback<ResponseBody>() {
@@ -60,28 +61,30 @@ public class ItemsEditTask extends AsyncTask<RequestBody, Void, Void> {
                         success = json.getInt("success");
 
                         if (success == 0) {
-                            itemsEditUI.showConnErrorThenRetry();
+                            profileEditUI.showConnErrorThenRetry();
+                        } else if (success == 3) {
+                            profileEditUI.showPassErrorThenRetry();
                         } else {
                             int imgSuccess = json.getInt("imgSuccess");
                             if (success == 1 && imgSuccess == 0) {
-                                itemsEditUI.updateUIAfterUpload(0);
+                                profileEditUI.updateUIAfterUpload(0);
                             } else if (success == 1 && (imgSuccess == 1 || imgSuccess == -1)) {
-                                itemsEditUI.updateUIAfterUpload(1);
+                                profileEditUI.updateUIAfterUpload(1);
                             }
                         }
                     } else {
-                        itemsEditUI.showConnErrorThenRetry();
+                        profileEditUI.showConnErrorThenRetry();
                     }
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
-                    itemsEditUI.showConnErrorThenRetry();
+                    profileEditUI.showConnErrorThenRetry();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 t.printStackTrace();
-                itemsEditUI.showConnErrorThenRetry();
+                profileEditUI.showConnErrorThenRetry();
             }
         });
 

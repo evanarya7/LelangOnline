@@ -1,17 +1,13 @@
 package com.defalt.lelangonline.ui.home;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +20,6 @@ import com.defalt.lelangonline.ui.recycle.PaginationListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
@@ -42,7 +37,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        setHasOptionsMenu(true);
 
         mShimmerViewContainer = root.findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.startShimmer();
@@ -81,19 +75,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
 
         return root;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.options_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-
-        SearchManager searchManager =
-                (SearchManager) Objects.requireNonNull(this.getContext()).getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                Objects.requireNonNull(searchManager).getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));
     }
 
     @Override

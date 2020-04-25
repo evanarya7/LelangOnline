@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TimePicker;
 
 import com.google.gson.Gson;
@@ -63,6 +64,12 @@ public class SharedFunctions {
         editText.setCursorVisible(false);
     }
 
+    public static void disableSwitch(Switch switcher) {
+        switcher.setClickable(false);
+        switcher.setFocusable(false);
+        switcher.setEnabled(false);
+    }
+
     public static void disableSpinner(Spinner spinner) {
         spinner.setClickable(false);
         spinner.setFocusable(false);
@@ -74,6 +81,12 @@ public class SharedFunctions {
         editText.setFocusableInTouchMode(true);
         editText.setEnabled(true);
         editText.setCursorVisible(true);
+    }
+
+    public static void enableSwitch(Switch switcher) {
+        switcher.setClickable(true);
+        switcher.setFocusable(true);
+        switcher.setEnabled(true);
     }
 
     public static void enableSpinner(Spinner spinner) {

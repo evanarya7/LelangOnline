@@ -1,4 +1,4 @@
-package com.defalt.lelangonline.ui.items.edit;
+package com.defalt.lelangonline.ui.account.edit;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,9 +15,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,34 +30,40 @@ import androidx.cardview.widget.CardView;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation;
 import com.bumptech.glide.Glide;
 import com.defalt.lelangonline.R;
-import com.defalt.lelangonline.data.items.edit.ItemByIDTask;
-import com.defalt.lelangonline.data.items.edit.ItemsEditTask;
+import com.defalt.lelangonline.data.account.edit.ProfileByIDTask;
+import com.defalt.lelangonline.data.account.edit.ProfileEditTask;
 import com.defalt.lelangonline.data.login.LoginRepository;
 import com.defalt.lelangonline.ui.SharedFunctions;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import me.abhinay.input.CurrencyEditText;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class ItemsEditActivity extends AppCompatActivity {
+public class ProfileEditActivity extends AppCompatActivity {
     private Activity mActivity;
     private Context mContext;
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private ScrollView mScrollView;
-    private ItemsEditUI itemsEditUI;
+    private ProfileEditUI profileEditUI;
 
     private EditText nameEditText;
-    private EditText descEditText;
-    private EditText categoryEditText;
-    private CurrencyEditText valueEditText;
+    private EditText emailEditText;
+    private EditText phoneEditText;
+    private EditText passwordEditText;
+    private EditText passwordNewEditText;
+    private EditText passwordConfEditText;
     private ImageView thumbImageView;
+    private Switch passwordChangeSwitch;
     private View overlay;
     private CardView progressBarCard;
     private AwesomeValidation mAwesomeValidation;
@@ -64,13 +72,13 @@ public class ItemsEditActivity extends AppCompatActivity {
     private static boolean isImageEmpty = true;
     private Uri mCropImageUri;
     private boolean isImageChange;
-    private String itemID;
+    private boolean isPasswordChange;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_item);
+        setContentView(R.layout.activity_edit_profile);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,35 +88,61 @@ public class ItemsEditActivity extends AppCompatActivity {
 
         mScrollView = findViewById(R.id.container);
 
-        mActivity = ItemsEditActivity.this;
+        mActivity = ProfileEditActivity.this;
         mContext = getApplicationContext();
-        itemsEditUI = new ItemsEditUI();
-
-        Intent intent = getIntent();
-        itemID = intent.getStringExtra("TAG_EXTRA");
+        profileEditUI = new ProfileEditUI();
 
         nameEditText = findViewById(R.id.name);
-        categoryEditText = findViewById(R.id.category);
-        valueEditText = SharedFunctions.setEditTextCurrency((CurrencyEditText) findViewById(R.id.value));
-        descEditText = findViewById(R.id.description);
+        emailEditText = findViewById(R.id.email);
+        phoneEditText = findViewById(R.id.phone);
+        passwordEditText = findViewById(R.id.password);
+        passwordNewEditText = findViewById(R.id.password_new);
+        passwordConfEditText = findViewById(R.id.password_new_conf);
         thumbImageView = findViewById(R.id.thumbnail);
+        passwordChangeSwitch = findViewById(R.id.change_pass);
         overlay = findViewById(R.id.overlay);
         progressBarCard = findViewById(R.id.progressCard);
 
-        SimpleCustomValidation validationEmpty = new SimpleCustomValidation() {
+        final SimpleCustomValidation validationEmpty = new SimpleCustomValidation() {
             @Override
             public boolean compare(String input) {
                 return input.length() > 0;
             }
         };
 
-        mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-        mAwesomeValidation.addValidation(mActivity, R.id.name, validationEmpty, R.string.form_invalid_item_name);
-        mAwesomeValidation.addValidation(mActivity, R.id.category, validationEmpty, R.string.form_invalid_item_cat);
-        mAwesomeValidation.addValidation(mActivity, R.id.value, validationEmpty, R.string.form_invalid_item_val);
-        mAwesomeValidation.addValidation(mActivity, R.id.description, validationEmpty, R.string.form_invalid_item_desc);
+        final SimpleCustomValidation validationPassword = new SimpleCustomValidation() {
+            @Override
+            public boolean compare(String input) {
+                return input.length() >= 8;
+            }
+        };
 
-        new ItemByIDTask(itemsEditUI).execute(itemID);
+        mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        mAwesomeValidation.addValidation(mActivity, R.id.name, "[a-zA-Z\\s]+", R.string.form_invalid_username);
+        mAwesomeValidation.addValidation(mActivity, R.id.name, validationEmpty, R.string.form_invalid_username_empty);
+        mAwesomeValidation.addValidation(mActivity, R.id.email, android.util.Patterns.EMAIL_ADDRESS, R.string.form_invalid_email);
+        mAwesomeValidation.addValidation(mActivity, R.id.email, validationEmpty, R.string.form_invalid_email_empty);
+        mAwesomeValidation.addValidation(mActivity, R.id.phone, RegexTemplate.TELEPHONE, R.string.form_invalid_phone);
+        mAwesomeValidation.addValidation(mActivity, R.id.phone, validationEmpty, R.string.form_invalid_phone_empty);
+        mAwesomeValidation.addValidation(mActivity, R.id.password, validationPassword, R.string.form_invalid_password);
+        mAwesomeValidation.addValidation(mActivity, R.id.password_new, validationPassword, R.string.form_invalid_password);
+        mAwesomeValidation.addValidation(mActivity, R.id.password_new_conf, R.id.password_new, R.string.form_invalid_password);
+
+        passwordChangeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setPasswordChange(true);
+                    passwordNewEditText.setVisibility(View.VISIBLE);
+                    passwordConfEditText.setVisibility(View.VISIBLE);
+                } else {
+                    setPasswordChange(false);
+                    passwordNewEditText.setVisibility(View.GONE);
+                    passwordConfEditText.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        new ProfileByIDTask(profileEditUI).execute(LoginRepository.getLoggedInUser().getToken());
     }
 
     private void enableImageAdd() {
@@ -157,8 +191,8 @@ public class ItemsEditActivity extends AppCompatActivity {
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setFixAspectRatio(true)
-                .setAspectRatio(16, 9)
-                .setRequestedSize(800, 450, CropImageView.RequestSizeOptions.RESIZE_INSIDE)
+                .setAspectRatio(1, 1)
+                .setRequestedSize(500, 500, CropImageView.RequestSizeOptions.RESIZE_INSIDE)
                 .start(this);
     }
 
@@ -240,22 +274,24 @@ public class ItemsEditActivity extends AppCompatActivity {
         overlay.setVisibility(View.VISIBLE);
         progressBarCard.setVisibility(View.VISIBLE);
 
-        SharedFunctions.disableEditText(nameEditText);
-        SharedFunctions.disableEditText(descEditText);
-        SharedFunctions.disableEditText(categoryEditText);
-        SharedFunctions.disableEditText(valueEditText);
         disableImage();
+        SharedFunctions.disableEditText(nameEditText);
+        SharedFunctions.disableEditText(phoneEditText);
+        SharedFunctions.disableEditText(passwordEditText);
+        SharedFunctions.disableSwitch(passwordChangeSwitch);
+        SharedFunctions.disableEditText(passwordNewEditText);
+        SharedFunctions.disableEditText(passwordConfEditText);
 
-        RequestBody itemID = RequestBody.create(MediaType.parse("text/plain"), this.itemID);
-        RequestBody itemName = RequestBody.create(MediaType.parse("text/plain"), nameEditText.getText().toString());
-        RequestBody itemDesc = RequestBody.create(MediaType.parse("text/plain"), descEditText.getText().toString());
-        RequestBody itemCat = RequestBody.create(MediaType.parse("text/plain"), categoryEditText.getText().toString());
-        RequestBody itemVal = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(valueEditText.getCleanIntValue()));
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), nameEditText.getText().toString());
+        RequestBody phone = RequestBody.create(MediaType.parse("text/plain"), phoneEditText.getText().toString());
+        RequestBody oldPassword = RequestBody.create(MediaType.parse("text/plain"), new String(Hex.encodeHex(DigestUtils.sha256(passwordEditText.getText().toString()))));
+        RequestBody newPassword = RequestBody.create(MediaType.parse("text/plain"), new String(Hex.encodeHex(DigestUtils.sha256(passwordConfEditText.getText().toString()))));
+        RequestBody isPasswordChange = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(isPasswordChange()));
         RequestBody isImageEmpty = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(isImageEmpty()));
         RequestBody isImageChange = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(this.isImageChange));
         RequestBody userToken = RequestBody.create(MediaType.parse("text/plain"), LoginRepository.getLoggedInUser().getToken());
 
-        new ItemsEditTask(isImageEmpty(), mCropImageUri, this.isImageChange, itemsEditUI).execute(itemID, itemName, itemDesc, itemCat, itemVal, isImageEmpty, isImageChange, userToken);
+        new ProfileEditTask(isImageEmpty(), mCropImageUri, this.isImageChange, profileEditUI).execute(name, phone, oldPassword, newPassword, isPasswordChange, isImageEmpty, isImageChange, userToken);
     }
 
     @Override
@@ -282,7 +318,7 @@ public class ItemsEditActivity extends AppCompatActivity {
     }
 
     public static void setIsLoading(boolean isLoading) {
-        ItemsEditActivity.isLoading = isLoading;
+        ProfileEditActivity.isLoading = isLoading;
     }
 
     public static boolean isImageEmpty() {
@@ -290,21 +326,28 @@ public class ItemsEditActivity extends AppCompatActivity {
     }
 
     public static void setIsImageEmpty(boolean isImageEmpty) {
-        ItemsEditActivity.isImageEmpty = isImageEmpty;
+        ProfileEditActivity.isImageEmpty = isImageEmpty;
     }
 
-    public class ItemsEditUI {
-        ItemsEditUI() { }
+    public boolean isPasswordChange() {
+        return isPasswordChange;
+    }
 
-        public void updateEditText(String itemName, String itemCat, Double itemValue, String itemDesc, String itemImg) {
-            nameEditText.setText(itemName);
-            categoryEditText.setText(itemCat);
-            valueEditText.setText(SharedFunctions.formatRupiah(itemValue));
-            descEditText.setText(itemDesc);
+    public void setPasswordChange(boolean passwordChange) {
+        isPasswordChange = passwordChange;
+    }
+
+    public class ProfileEditUI {
+        ProfileEditUI() { }
+
+        public void updateEditText(String name, String email, String phone, String image) {
+            nameEditText.setText(name);
+            emailEditText.setText(email);
+            phoneEditText.setText(phone);
             thumbImageView.setImageDrawable(null);
-            if (!itemImg.equals("null")) {
-                String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/items/";
-                Glide.with(mContext).load(IMAGE_URL + itemImg).into(thumbImageView);
+            if (!image.equals("null")) {
+                String IMAGE_URL = "https://dev.projectlab.co.id/mit/1317003/images/profile/";
+                Glide.with(mContext).load(IMAGE_URL + image).into(thumbImageView);
                 setIsImageEmpty(false);
                 enableImageRemove();
             } else {
@@ -315,7 +358,7 @@ public class ItemsEditActivity extends AppCompatActivity {
             updateUI();
         }
 
-        public void updateUI() {
+        private void updateUI() {
             mShimmerViewContainer.stopShimmer();
             mShimmerViewContainer.setVisibility(View.GONE);
             mScrollView.setVisibility(View.VISIBLE);
@@ -340,9 +383,9 @@ public class ItemsEditActivity extends AppCompatActivity {
         public void updateUIAfterUpload(int endType) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(mActivity);
             if (endType == 0) {
-                alertDialog.setMessage(R.string.alert_update_success_item_0_desc);
+                alertDialog.setMessage(R.string.alert_update_success_account_0_desc);
             } else {
-                alertDialog.setMessage(R.string.alert_update_success_item_1_desc);
+                alertDialog.setMessage(R.string.alert_update_success_account_1_desc);
             }
             alertDialog.setTitle(R.string.alert_update_success_title)
                     .setIcon(R.drawable.ic_check_circle_black_24dp)
@@ -365,21 +408,41 @@ public class ItemsEditActivity extends AppCompatActivity {
                     .setPositiveButton(mActivity.getString(R.string.alert_agree), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SharedFunctions.enableEditText(nameEditText);
-                            SharedFunctions.enableEditText(descEditText);
-                            SharedFunctions.enableEditText(categoryEditText);
-                            SharedFunctions.enableEditText(valueEditText);
-                            if (isImageEmpty()) {
-                                enableImageAdd();
-                            } else {
-                                enableImageRemove();
-                            }
-
-                            overlay.setVisibility(View.GONE);
-                            progressBarCard.setVisibility(View.GONE);
-                            setIsLoading(false);
+                            openFormLock();
                         }
                     }).show();
+        }
+
+        public void showPassErrorThenRetry() {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mActivity);
+            alertDialog.setTitle(R.string.alert_pass_invalid_title)
+                    .setMessage(R.string.alert_pass_invalid_desc)
+                    .setIcon(R.drawable.ic_error_black_24dp)
+                    .setCancelable(false)
+                    .setPositiveButton(mActivity.getString(R.string.alert_agree), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            openFormLock();
+                        }
+                    }).show();
+        }
+
+        private void openFormLock() {
+            if (isImageEmpty()) {
+                enableImageAdd();
+            } else {
+                enableImageRemove();
+            }
+            SharedFunctions.enableEditText(nameEditText);
+            SharedFunctions.enableEditText(phoneEditText);
+            SharedFunctions.enableEditText(passwordEditText);
+            SharedFunctions.enableSwitch(passwordChangeSwitch);
+            SharedFunctions.enableEditText(passwordNewEditText);
+            SharedFunctions.enableEditText(passwordConfEditText);
+
+            overlay.setVisibility(View.GONE);
+            progressBarCard.setVisibility(View.GONE);
+            setIsLoading(false);
         }
     }
 }

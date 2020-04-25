@@ -4,13 +4,15 @@ import java.sql.Timestamp;
 
 public class Bid {
     private String userName;
+    private String userImage;
     private Double bidPrice;
     private Timestamp bidTime;
 
     Bid() { }
 
-    public Bid(String userName, Double bidPrice, Timestamp bidTime) {
+    public Bid(String userName, String userImage, Double bidPrice, Timestamp bidTime) {
         this.userName = userName;
+        this.userImage = userImage;
         this.bidPrice = bidPrice;
         this.bidTime = bidTime;
     }
@@ -19,23 +21,15 @@ public class Bid {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUserImage() {
+        return userImage;
     }
 
     public Double getBidPrice() {
         return bidPrice;
     }
 
-    public void setBidPrice(Double bidPrice) {
-        this.bidPrice = bidPrice;
-    }
-
     public Timestamp getBidTime() {
         return bidTime;
-    }
-
-    public void setBidTime(Timestamp bidTime) {
-        this.bidTime = bidTime;
     }
 }

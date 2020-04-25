@@ -55,6 +55,13 @@ public interface RestApi {
             @Part("desiredCount") RequestBody desiredCount,
             @Part("dataOffset") RequestBody dataOffset);
 
+    @Multipart
+    @POST("/dev/mit/1317003/get_items_search.php")
+    Call<ResponseBody> getItemsSearch(
+            @Part("desiredCount") RequestBody desiredCount,
+            @Part("dataOffset") RequestBody dataOffset,
+            @Part("query") RequestBody query);
+
     // AUCTION BY ITEM ACTIVITY
     @Multipart
     @POST("/dev/mit/1317003/get_auction_by_item.php")
@@ -63,17 +70,39 @@ public interface RestApi {
             @Part("dataOffset") RequestBody dataOffset,
             @Part("itemID") RequestBody itemID);
 
-    // ADD ITEM ACTIVITY
+    // ACCOUNT FRAGMENT
     @Multipart
-    @POST("/dev/mit/1317003/create_item.php")
-    Call<ResponseBody> postItemNoImage(
-            @Part("itemName") RequestBody itemName,
-            @Part("itemDesc") RequestBody itemDesc,
-            @Part("itemCat") RequestBody itemCat,
-            @Part("itemVal") RequestBody itemVal,
-            @Part("isImageEmpty") RequestBody isImageEmpty,
+    @POST("/dev/mit/1317003/get_profile_by_uid.php")
+    Call<ResponseBody> getProfileByToken(
             @Part("token") RequestBody token);
 
+    // PROFILE EDIT ACTIVITY
+    @Multipart
+    @POST("/dev/mit/1317003/update_profile.php")
+    Call<ResponseBody> updateUserWithImage(
+            @Part("name") RequestBody name,
+            @Part("phone") RequestBody phone,
+            @Part("oldPassword") RequestBody oldPassword,
+            @Part("newPassword") RequestBody newPassword,
+            @Part("isPasswordChange") RequestBody isPasswordChange,
+            @Part("isImageEmpty") RequestBody isImageEmpty,
+            @Part("isImageChange") RequestBody isImageChange,
+            @Part("token") RequestBody token,
+            @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("/dev/mit/1317003/update_profile.php")
+    Call<ResponseBody> updateUserNoImage(
+            @Part("name") RequestBody name,
+            @Part("phone") RequestBody phone,
+            @Part("oldPassword") RequestBody oldPassword,
+            @Part("newPassword") RequestBody newPassword,
+            @Part("isPasswordChange") RequestBody isPasswordChange,
+            @Part("isImageEmpty") RequestBody isImageEmpty,
+            @Part("isImageChange") RequestBody isImageChange,
+            @Part("token") RequestBody token);
+
+    // ADD ITEM ACTIVITY
     @Multipart
     @POST("/dev/mit/1317003/create_item.php")
     Call<ResponseBody> postItemWithImage(
@@ -84,6 +113,16 @@ public interface RestApi {
             @Part("isImageEmpty") RequestBody isImageEmpty,
             @Part("token") RequestBody token,
             @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("/dev/mit/1317003/create_item.php")
+    Call<ResponseBody> postItemNoImage(
+            @Part("itemName") RequestBody itemName,
+            @Part("itemDesc") RequestBody itemDesc,
+            @Part("itemCat") RequestBody itemCat,
+            @Part("itemVal") RequestBody itemVal,
+            @Part("isImageEmpty") RequestBody isImageEmpty,
+            @Part("token") RequestBody token);
 
     // ITEM BY USER ACTIVITY
     @Multipart

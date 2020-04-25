@@ -1,22 +1,21 @@
-package com.defalt.lelangonline.data.details;
+package com.defalt.lelangonline.data.items;
 
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
+import com.defalt.lelangonline.MainActivity;
 import com.defalt.lelangonline.data.RestApi;
 import com.defalt.lelangonline.ui.SharedFunctions;
-import com.defalt.lelangonline.ui.details.Bid;
-import com.defalt.lelangonline.ui.details.BidAdapter;
-import com.defalt.lelangonline.ui.details.DetailsActivity;
-import com.defalt.lelangonline.ui.details.HistoryFragment;
+import com.defalt.lelangonline.ui.items.Item;
+import com.defalt.lelangonline.ui.items.ItemsAdapter;
+import com.defalt.lelangonline.ui.items.ItemsFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -28,30 +27,30 @@ import retrofit2.Response;
 
 import static com.defalt.lelangonline.ui.recycle.PaginationListener.PAGE_START;
 
-public class HistoryTask extends AsyncTask<String, Void, Void> {
+public class ItemsSearchTask extends AsyncTask<String, Void, Void> {
     private int success;
 
-    private BidAdapter adapter;
-    private List<Bid> bidList;
+    private ItemsAdapter adapter;
+    private List<Item> itemList;
     private int currentPage;
     private int totalPage;
-    private HistoryFragment.HistoryUI historyUI;
+    private ItemsFragment.ItemsUI itemsUI;
 
-    public HistoryTask(BidAdapter adapter, List<Bid> bidList, int currentPage, int totalPage, HistoryFragment.HistoryUI historyUI) {
+    public ItemsSearchTask(ItemsAdapter adapter, List<Item> itemList, int currentPage, int totalPage, ItemsFragment.ItemsUI itemsUI) {
         this.adapter = adapter;
-        this.bidList = bidList;
+        this.itemList = itemList;
         this.currentPage = currentPage;
         this.totalPage = totalPage;
-        this.historyUI = historyUI;
+        this.itemsUI = itemsUI;
     }
 
     protected Void doInBackground(String... args) {
         RestApi server = SharedFunctions.getRetrofit().create(RestApi.class);
         RequestBody desiredCount = RequestBody.create(MediaType.parse("text/plain"), args[0]);
         RequestBody dataOffset = RequestBody.create(MediaType.parse("text/plain"), args[1]);
-        RequestBody auctionID = RequestBody.create(MediaType.parse("text/plain"), args[2]);
+        RequestBody query = RequestBody.create(MediaType.parse("text/plain"), args[2]);
 
-        Call<ResponseBody> req = server.getDetailsHistory(desiredCount, dataOffset, auctionID);
+        Call<ResponseBody> req = server.getItemsSearch(desiredCount, dataOffset, query);
 
         req.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -62,18 +61,21 @@ public class HistoryTask extends AsyncTask<String, Void, Void> {
                         success = json.getInt("success");
 
                         if (success == 1) {
-                            JSONArray items = json.getJSONArray("bids");
+                            JSONArray items = json.getJSONArray("items");
 
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject c = items.getJSONObject(i);
+                                ItemsFragment.setItemCount(ItemsFragment.getItemCount() + 1);
 
-                                String userName = c.getString("userName");
-                                String userImage = c.getString("userImage");
-                                Double bidPrice = c.getDouble("bidPrice");
-                                Timestamp bidTime = Timestamp.valueOf(c.getString("bidTime"));
+                                String itemID = c.getString("itemID");
+                                String itemName = c.getString("itemName");
+                                String itemCat = c.getString("itemCat");
+                                Double itemValue = c.getDouble("itemValue");
+                                String itemImg = c.getString("itemImg");
+                                int favCount = c.getInt("favCount");
 
-                                Bid im = new Bid(userName, userImage, bidPrice, bidTime);
-                                bidList.add(im);
+                                Item im = new Item(itemID, itemName, itemCat, itemValue, itemImg, favCount);
+                                itemList.add(im);
                             }
                         }
 
@@ -100,7 +102,6 @@ public class HistoryTask extends AsyncTask<String, Void, Void> {
                 }
             }
 
-
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 t.printStackTrace();
@@ -118,34 +119,34 @@ public class HistoryTask extends AsyncTask<String, Void, Void> {
         if (currentPage != PAGE_START) {
             adapter.removeLoading();
         }
-        adapter.addItems(bidList);
-        historyUI.setRefreshing(false);
+        adapter.addItems(itemList);
+        itemsUI.setRefreshing(false);
     }
 
     private void executeSuccess() {
-        if (bidList.size() < totalPage) {
-            HistoryFragment.setLastPage(true);
+        if (itemList.size() < totalPage) {
+            ItemsFragment.setLastPage(true);
         } else {
             adapter.addLoading();
         }
-        historyUI.updateUI();
+        itemsUI.updateUI();
     }
 
     private void executeEmpty() {
-        HistoryFragment.setLastPage(true);
-        historyUI.updateUI();
+        ItemsFragment.setLastPage(true);
+        itemsUI.updateUI();
     }
 
     private void executeError() {
-        HistoryFragment.setLastPage(true);
-        if (!DetailsActivity.isIsConnectionError()) {
-            historyUI.showError();
-            DetailsActivity.setIsConnectionError(true);
+        ItemsFragment.setLastPage(true);
+        if (!MainActivity.isConnectionError()) {
+            itemsUI.showError();
+            MainActivity.setIsConnectionError(true);
         }
     }
 
     private void endExecute() {
-        HistoryFragment.setLoading(false);
+        ItemsFragment.setLoading(false);
     }
 
 }
