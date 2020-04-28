@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,7 +34,13 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private ItemsAdapter adapter;
     private ShimmerFrameLayout mShimmerViewContainer;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager layoutManager;
+    private PaginationListener paginationListener;
+    private PaginationListener searchPaginationListener;
     private ItemsUI itemsUI;
+    private boolean isSearching = false;
+    private String searchQuery;
     private int totalPage = 6;
     private int currentPage = PAGE_START;
     private static boolean isLastPage = false;
@@ -51,10 +58,10 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         SwipeRefreshLayout swipeRefresh = root.findViewById(R.id.swipeRefresh);
         swipeRefresh.setOnRefreshListener(this);
 
-        RecyclerView mRecyclerView = root.findViewById(R.id.recyclerView);
+        mRecyclerView = root.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
         adapter = new ItemsAdapter(getContext(), new ArrayList<Item>());
@@ -62,7 +69,7 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         itemsUI = new ItemsUI(mShimmerViewContainer, mRecyclerView, swipeRefresh, getContext());
 
-        mRecyclerView.addOnScrollListener(new PaginationListener(layoutManager, totalPage) {
+        paginationListener = new PaginationListener(layoutManager, totalPage) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
@@ -79,7 +86,28 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             public boolean isLoading() {
                 return isLoading;
             }
-        });
+        };
+        searchPaginationListener = new PaginationListener(layoutManager, totalPage) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage++;
+                prepareDataFromSearch(searchQuery);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        };
+
+        mRecyclerView.clearOnScrollListeners();
+        mRecyclerView.addOnScrollListener(paginationListener);
 
         return root;
     }
@@ -96,59 +124,90 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         searchView.setSearchableInfo(
                 Objects.requireNonNull(searchManager).getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));
         searchView.setQueryHint("Cari barang...");
+
+        MenuItem item = menu.findItem(R.id.search);
+        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                isSearching = true;
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                resetRecycler();
+                isSearching = false;
+
+                prepareData();
+
+                mRecyclerView.clearOnScrollListeners();
+                mRecyclerView.addOnScrollListener(paginationListener);
+
+                return true;
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                mShimmerViewContainer.setVisibility(View.VISIBLE);
-                mShimmerViewContainer.startShimmer();
+            public boolean onQueryTextSubmit(final String query) {
+                resetRecycler();
+                isSearching = true;
+                searchQuery = query;
 
-                itemCount = 0;
-                currentPage = PAGE_START;
-                isLastPage = false;
-                adapter.clear();
-                MainActivity.setIsConnectionError(false);
-                prepareDataFromSearch(query);
+                prepareDataFromSearch(searchQuery);
+
+                mRecyclerView.clearOnScrollListeners();
+                mRecyclerView.addOnScrollListener(searchPaginationListener);
 
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(String query) {
+                resetRecycler();
+                isSearching = true;
+                searchQuery = query;
+
+                prepareDataFromSearch(searchQuery);
+
+                mRecyclerView.clearOnScrollListeners();
+                mRecyclerView.addOnScrollListener(searchPaginationListener);
+
+                return true;
             }
         });
     }
 
     @Override
     public void onRefresh() {
-        mShimmerViewContainer.setVisibility(View.VISIBLE);
-        mShimmerViewContainer.startShimmer();
+        resetRecycler();
 
-        itemCount = 0;
-        currentPage = PAGE_START;
-        isLastPage = false;
-        adapter.clear();
-        MainActivity.setIsConnectionError(false);
-        prepareData();
+        if (isSearching) {
+            prepareDataFromSearch(searchQuery);
+
+            mRecyclerView.clearOnScrollListeners();
+            mRecyclerView.addOnScrollListener(searchPaginationListener);
+        } else {
+            prepareData();
+
+            mRecyclerView.clearOnScrollListeners();
+            mRecyclerView.addOnScrollListener(paginationListener);
+        }
     }
 
     @Override
-    public void onStop() {
-        mShimmerViewContainer.setVisibility(View.VISIBLE);
-        mShimmerViewContainer.startShimmer();
-
-        itemCount = 0;
-        currentPage = PAGE_START;
-        isLastPage = false;
-        adapter.clear();
-        MainActivity.setIsConnectionError(false);
-        super.onStop();
+    public void onPause() {
+        resetRecycler();
+        super.onPause();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         prepareData();
+
+        mRecyclerView.clearOnScrollListeners();
+        mRecyclerView.addOnScrollListener(paginationListener);
     }
 
     public static void setLastPage(boolean lastPage) {
@@ -165,6 +224,18 @@ public class ItemsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     public static void setItemCount(int newItemCount) {
         itemCount = newItemCount;
+    }
+
+    private void resetRecycler() {
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmer();
+
+        itemCount = 0;
+        currentPage = PAGE_START;
+        isLastPage = false;
+        isLoading = false;
+        adapter.clear();
+        MainActivity.setIsConnectionError(false);
     }
 
     private void prepareData() {

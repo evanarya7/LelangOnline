@@ -90,6 +90,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     void clear() {
+        if (itemList.size() > 0) {
+            removeLoading();
+        }
+
         itemList.clear();
         notifyDataSetChanged();
     }
