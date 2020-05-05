@@ -122,7 +122,8 @@
     <string name="item_post_img_hint">Tambahkan foto barang</string>
     <string name="auction_bid_amount_title">Penawaran Anda</string>
     <string name="auction_bid_amount_hint">Masukkan jumlah penawaran anda</string>
-    <string name="auction_bid_amount_hint_locked">Lelang belum dimulai atau telah berakhir</string>
+    <string name="auction_bid_amount_hint_locked">Daftar atau masuk terlebih dahulu</string>
+    <string name="auction_bid_amount_hint_stop">Lelang belum dimulai atau telah berakhir</string>
     <string name="auction_bid_amount_hint_owner">Anda tidak dapat melakukan penawaran</string>
     <string name="auction_post_name_title">Nama Barang</string>
     <string name="auction_post_name_hint">Pilih Barang Anda</string>

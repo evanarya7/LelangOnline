@@ -41,7 +41,9 @@ public class AccountFragment extends Fragment implements SwipeRefreshLayout.OnRe
         Context mContext = getActivity();
 
         accountUI = new AccountUI(mShimmerViewContainer, swipeRefresh, profileImageView, nameTextView, subTextView, mContext);
-        new AccountTask(accountUI).execute(LoginRepository.getLoggedInUser().getToken());
+        if (LoginRepository.getLoggedInUser() != null) {
+            new AccountTask(accountUI).execute(LoginRepository.getLoggedInUser().getToken());
+        }
 
         return root;
     }

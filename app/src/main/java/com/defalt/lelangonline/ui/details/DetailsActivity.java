@@ -142,7 +142,10 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void prepareData() {
-        new DetailsTask(new DetailsUI(lastBidAmount, bidAmountEditText, bidButton, this)).execute(auctionID, LoginRepository.getLoggedInUser().getToken());
+        if (LoginRepository.isLoggedIn()) {
+            bidAmountEditText.setHint(R.string.auction_bid_amount_hint_stop);
+            new DetailsTask(new DetailsUI(lastBidAmount, bidAmountEditText, bidButton, this)).execute(auctionID, LoginRepository.getLoggedInUser().getToken());
+        }
     }
 
     private void checkBid() {
@@ -285,7 +288,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         public void lockBid() {
             bidAmountEditText.setEnabled(false);
-            bidAmountEditText.setHint(R.string.auction_bid_amount_hint_locked);
+            bidAmountEditText.setHint(R.string.auction_bid_amount_hint_stop);
             bidAmountEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mActivity.getDrawable(R.drawable.ic_lock_black_24dp), null);
             bidButton.setEnabled(false);
         }

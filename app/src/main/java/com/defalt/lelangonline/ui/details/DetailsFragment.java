@@ -31,14 +31,6 @@ public class DetailsFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private NestedScrollView mNestedScrollView;
     private DetailsItemUI detailsItemUI;
     private String auctionID;
-    private ImageView mThumbnail;
-    private TextView mBidCount;
-    private TextView mTimerText;
-    private TextView mTimer;
-    private TextView mItemName;
-    private TextView mItemPriceInit;
-    private TextView mItemPriceStart;
-    private TextView mItemDesc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,14 +42,14 @@ public class DetailsFragment extends Fragment implements SwipeRefreshLayout.OnRe
         SwipeRefreshLayout swipeRefresh = Objects.requireNonNull(getActivity()).findViewById(R.id.swipeRefresh);
 
         mNestedScrollView = root.findViewById(R.id.container);
-        mThumbnail = root.findViewById(R.id.thumbnail);
-        mBidCount = root.findViewById(R.id.bidCount);
-        mTimerText = root.findViewById(R.id.timerText);
-        mTimer = root.findViewById(R.id.timer);
-        mItemName = root.findViewById(R.id.itemName);
-        mItemPriceInit = root.findViewById(R.id.itemPrice);
-        mItemPriceStart = root.findViewById(R.id.itemStart);
-        mItemDesc = root.findViewById(R.id.itemDescription);
+        ImageView mThumbnail = root.findViewById(R.id.thumbnail);
+        TextView mBidCount = root.findViewById(R.id.bidCount);
+        TextView mTimerText = root.findViewById(R.id.timerText);
+        TextView mTimer = root.findViewById(R.id.timer);
+        TextView mItemName = root.findViewById(R.id.itemName);
+        TextView mItemPriceInit = root.findViewById(R.id.itemPrice);
+        TextView mItemPriceStart = root.findViewById(R.id.itemStart);
+        TextView mItemDesc = root.findViewById(R.id.itemDescription);
 
         detailsItemUI = new DetailsItemUI(mShimmerViewContainer, mNestedScrollView, swipeRefresh,
                 mThumbnail, mBidCount, mTimerText, mTimer, mItemName, mItemPriceInit, mItemPriceStart, mItemDesc, getActivity());
