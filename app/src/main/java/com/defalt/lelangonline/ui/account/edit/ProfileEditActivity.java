@@ -166,7 +166,7 @@ public class ProfileEditActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final CharSequence[] options = {"Hapus"};
                 final AlertDialog.Builder imgDialog = new AlertDialog.Builder(mActivity);
-                imgDialog.setTitle(R.string.item_post_img_hint);
+                imgDialog.setTitle(R.string.account_post_image_hint);
                 imgDialog.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {

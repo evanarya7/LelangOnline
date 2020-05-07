@@ -39,14 +39,14 @@ public class SplashActivity extends AppCompatActivity {
 
         final Activity mActivity = SplashActivity.this;
         final Context context = getApplicationContext();
-        PreferencesManager.instance(context);
-
-        final String token = PreferencesManager.instance().fetchValueString("token");
-        final String username = PreferencesManager.instance().fetchValueString("username");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
+                PreferencesManager.instance(context);
+                final String token = PreferencesManager.instance().fetchValueString("token");
+                final String username = PreferencesManager.instance().fetchValueString("username");
+
                 if (token != null && username != null) {
                     RestApi server = SharedFunctions.getRetrofit().create(RestApi.class);
                     RequestBody userToken = RequestBody.create(MediaType.parse("text/plain"), token);
@@ -98,16 +98,17 @@ public class SplashActivity extends AppCompatActivity {
 
         static void showConnError(final Activity mActivity) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(mActivity);
-            alertDialog.setTitle(R.string.alert_conn_title);
-            alertDialog.setMessage(R.string.alert_conn_desc);
-            alertDialog.setIcon(R.drawable.ic_error_black_24dp);
-            alertDialog.setPositiveButton(mActivity.getString(R.string.alert_agree), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mActivity.finish();
-                }
-            });
-            alertDialog.show();
+            alertDialog.setTitle(R.string.alert_conn_title)
+                    .setMessage(R.string.alert_conn_desc)
+                    .setIcon(R.drawable.ic_error_black_24dp)
+                    .setCancelable(false)
+                    .setPositiveButton(mActivity.getString(R.string.alert_agree), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mActivity.finish();
+                        }
+                    })
+                    .show();
         }
     }
 }
